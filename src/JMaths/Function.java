@@ -20,6 +20,7 @@ public class Function {
     public void setVariable(String abstractVariable){ this.abstractVariable = abstractVariable; }
     public void setExpression(String expression){ this.expression = expression; }
 
+    //Main operations to do quick maths
     private String add(int x, int y){
         return Integer.toString(x + y);
     }

@@ -1,25 +1,26 @@
 package JMaths;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import java.util.regex.*;
 
 public class Analyser {
 
     private String rawString;
 
-    public Boolean isFunction;
-    public Boolean isVariable;
+    public Boolean isFunction, isVariable;
 
-    private static Pattern functionPattern;
-    private static Pattern functionNamePattern;
-    private static Pattern functionVariablePattern;
-    private static Pattern functionExpressionPattern;
-    private static Pattern variablePattern;
-    private static Pattern variableNamePattern, variableExpressionPattern;
-    private static Pattern printPattern, plotPattern;
+    private static Pattern functionPattern, functionNamePattern, functionVariablePattern, functionExpressionPattern;
+    private static Pattern variablePattern, variableNamePattern, variableExpressionPattern;
+    private static Pattern printPattern;
+    private static Pattern plotPattern;
 
+    //To write error messages in textArea
+    @FXML
+    public TextArea printArea;
+
+    // Constructor containing all regex expressions we need
     public Analyser(){
-
-        // All regex expressions we need
 
         functionPattern = Pattern.compile("^[a-zA-Z]+\\([a-zA-Z]+\\)=[a-zA-Z0-9.^\\/+\\-*]+");
         functionNamePattern = Pattern.compile("^[a-zA-Z]+");
@@ -34,6 +35,7 @@ public class Analyser {
 
     }
 
+    // Purge useless char in String
     protected String purgeIt(String str, String toPurge){
 
         str = str.replace(toPurge, "");
@@ -41,18 +43,13 @@ public class Analyser {
 
     }
 
+    //The main function of Analyser
     protected Object analyse(){
 
-        Matcher functionMatcher;
-        Matcher functionNameMatcher;
-        Matcher functionVariableMatcher;
-        Matcher functionExpressionMatcher;
-        Matcher variableMatcher;
-        Matcher variableNameMatcher;
-        Matcher variableExpressionMatcher;
-        Matcher printMatcher, plotMatcher;
-
-        // Clear all attributes except rawString
+        Matcher functionMatcher, functionNameMatcher, functionVariableMatcher, functionExpressionMatcher;
+        Matcher variableMatcher, variableNameMatcher, variableExpressionMatcher;
+        Matcher printMatcher;
+        Matcher plotMatcher;
 
         // Load the string to the matcher
         functionMatcher = functionPattern.matcher(rawString);
@@ -63,6 +60,7 @@ public class Analyser {
         variableMatcher = variablePattern.matcher(rawString);
         variableNameMatcher = variableNamePattern.matcher(rawString);
         variableExpressionMatcher = variableExpressionPattern.matcher(rawString);
+
         printMatcher = printPattern.matcher(rawString);
         plotMatcher = plotPattern.matcher(rawString);
 
@@ -78,15 +76,19 @@ public class Analyser {
                 // Update content indicator
                 this.isFunction = true;
 
+                //Creating Function class with the textField content
                 Function function = new Function(functionNameMatcher.group(),
                         purgeIt(functionVariableMatcher.group(), "("),
                         purgeIt(functionExpressionMatcher.group(), "="));
 
-                System.out.println(functionNameMatcher.group() + purgeIt(functionVariableMatcher.group(),"(") + purgeIt(functionExpressionMatcher.group(),"="));
+                //return function because we know that the user wrote a function
                 return function;
             }
 
-            else{ return "Wrong function"; }
+            else{
+                printArea.appendText("Wrong function syntax" + "\n" + "Try with the following syntax :" + "\n" + "functionName(variableName)=functionExpression" + "\n");
+                return -1;
+            }
         }
 
         else if(variableMatcher.find()) {
@@ -96,22 +98,31 @@ public class Analyser {
                 // Update content indicator
                 this.isVariable = true;
 
+                //Creating Function class with the textField content
                 Variable variable = new Variable(variableNameMatcher.group(),
                         Double.parseDouble(purgeIt(variableExpressionMatcher.group(), "=")));
-                System.out.println(variableNameMatcher.group() + purgeIt(variableExpressionMatcher.group(),"="));
+
+                //return variable because we know that the user wrote a variable
                 return variable;
             }
 
-            else{ return "Wrong variable"; }
+            else{
+                printArea.appendText("Wrong variable syntax" + "\n" + "Try with the following syntax :" + "\n" + "variableName=variableExpression" + "\n");
+                return -1;
+            }
         }
 
         else if(printMatcher.find()) { return printMatcher.group(); }
 
         else if(plotMatcher.find()) { return plotMatcher.group(); }
 
-        else{ return "No Matches"; }
+        else{
+            printArea.appendText("No matches" + "\n" + "Please define a function, a variable or use a command" + "\n");
+            return -1;
+        }
     }
 
+    // Explicit
     protected Object setRawString(String raw){
 
         this.rawString = raw;
