@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -16,8 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.Cursor?>
-<VBox fx:controller="JMaths.Controller" prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JMaths.Controller">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -60,25 +60,35 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <TextField fx:id="commandLine" promptText="Function, Variable or Command" layoutX="58.0" layoutY="122.0" prefHeight="42.0" prefWidth="800.0" />
-            <TableView fx:id="varList" layoutX="921.0" layoutY="122.0" prefHeight="560.0" prefWidth="333.0" />
-            <Label layoutX="488.0" layoutY="735.0" prefHeight="17.0" prefWidth="162.0" text="Version Dabbed, Release 42 ™" />
+            <Text layoutX="58.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom à définir" wrappingWidth="1195.896484375">
+                <font>
+                    <Font size="42.0" />
+                </font>
+            </Text>
+            <Text layoutX="1042.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Function list">
+                <font>
+                     <Font size="18.0" />
+                </font>
+            </Text>
+            <Text layoutX="1042.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Variable list">
+                <font>
+                   <Font size="18.0" />
+                </font>
+            </Text>
+            <TextField fx:id="commandLine" layoutX="58.0" layoutY="122.0" prefHeight="42.0" prefWidth="800.0" promptText="Function, Variable or Command" />
+            <TableView fx:id="fctList" layoutX="921.0" layoutY="102.0" prefHeight="280.0" prefWidth="333.0" />
+            <TableView fx:id="varList" layoutX="921.0" layoutY="422.0" prefHeight="280.0" prefWidth="333.0" />
             <Button fx:id="sendBtn" layoutX="58.0" layoutY="172.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="84.0" text="Send">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <TextArea fx:id="printArea" editable="false" layoutX="58.0" layoutY="204.0" prefHeight="142.0" prefWidth="800.0" />
-            <Text layoutX="58.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom à définir" wrappingWidth="1195.896484375">
-               <font>
-                  <Font size="42.0" />
-               </font>
-            </Text>
             <Button fx:id="clearBtn" layoutX="774.0" layoutY="172.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="84.0" text="Clear">
                 <cursor>
-                      <Cursor fx:constant="HAND" />
+                    <Cursor fx:constant="HAND" />
                 </cursor>
-            </Button>
+             </Button>
+            <TextArea fx:id="printArea" editable="false" layoutX="58.0" layoutY="204.0" prefHeight="142.0" prefWidth="800.0" />
             <LineChart fx:id="lineChart" layoutX="60.0" layoutY="355.0" prefHeight="350.0" prefWidth="800.0">
                 <xAxis>
                     <NumberAxis autoRanging="false" lowerBound="0" side="BOTTOM" tickUnit="3" upperBound="42" />
@@ -90,6 +100,7 @@
                     <Cursor fx:constant="CROSSHAIR" />
                 </cursor>
             </LineChart>
+            <Label layoutX="488.0" layoutY="735.0" prefHeight="17.0" prefWidth="162.0" text="Version Dabbed, Release 42 ™" />
       </children>
     </AnchorPane>
   </children>

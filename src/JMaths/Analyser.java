@@ -5,9 +5,6 @@ import java.util.regex.*;
 public class Analyser {
 
     private String rawString;
-    private Function function;
-    private Variable variable;
-    private String outputFunction, outputVariable, outputPrint, outputPlot;
 
     public Boolean isFunction;
     public Boolean isVariable;
@@ -44,7 +41,7 @@ public class Analyser {
 
     }
 
-    protected String analyse(){
+    protected Object analyse(){
 
         Matcher functionMatcher;
         Matcher functionNameMatcher;
@@ -81,20 +78,15 @@ public class Analyser {
                 // Update content indicator
                 this.isFunction = true;
 
-                this.function = new Function(functionNameMatcher.group(),
-                        purgeIt(functionVariableMatcher.group(),"("),
-                        purgeIt(functionExpressionMatcher.group(),"="));
+                Function function = new Function(functionNameMatcher.group(),
+                        purgeIt(functionVariableMatcher.group(), "("),
+                        purgeIt(functionExpressionMatcher.group(), "="));
 
-                this.outputFunction = functionNameMatcher.group() + purgeIt(functionVariableMatcher.group(),"(") + purgeIt(functionExpressionMatcher.group(),"=");
-
-                return this.outputFunction;
+                System.out.println(functionNameMatcher.group() + purgeIt(functionVariableMatcher.group(),"(") + purgeIt(functionExpressionMatcher.group(),"="));
+                return function;
             }
 
-            else{
-
-                return "Wrong function";
-
-            }
+            else{ return "Wrong function"; }
         }
 
         else if(variableMatcher.find()) {
@@ -104,38 +96,23 @@ public class Analyser {
                 // Update content indicator
                 this.isVariable = true;
 
-                this.variable = new Variable(variableNameMatcher.group(),
+                Variable variable = new Variable(variableNameMatcher.group(),
                         Double.parseDouble(purgeIt(variableExpressionMatcher.group(), "=")));
+                System.out.println(variableNameMatcher.group() + purgeIt(variableExpressionMatcher.group(),"="));
+                return variable;
             }
 
-            this.outputVariable = variableNameMatcher.group() + purgeIt(variableExpressionMatcher.group(),"=");
-
-            return this.outputVariable;
-
+            else{ return "Wrong variable"; }
         }
 
-        else if(printMatcher.find()) {
+        else if(printMatcher.find()) { return printMatcher.group(); }
 
-            this.outputPrint = printMatcher.group();
-            return this.outputPrint;
+        else if(plotMatcher.find()) { return plotMatcher.group(); }
 
-        }
-
-        else if(plotMatcher.find()) {
-
-            this.outputPlot = plotMatcher.group();
-            return this.outputPlot;
-
-        }
-
-        else{
-
-            return "No Matches";
-
-        }
+        else{ return "No Matches"; }
     }
 
-    protected String setRawString(String raw){
+    protected Object setRawString(String raw){
 
         this.rawString = raw;
         return this.analyse();
