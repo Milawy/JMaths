@@ -86,6 +86,7 @@ public class Analyser {
                         purgeIt(functionExpressionMatcher.group(),"="));
 
                 this.outputFunction = functionNameMatcher.group() + purgeIt(functionVariableMatcher.group(),"(") + purgeIt(functionExpressionMatcher.group(),"=");
+
                 return this.outputFunction;
             }
 
@@ -108,6 +109,7 @@ public class Analyser {
             }
 
             this.outputVariable = variableNameMatcher.group() + purgeIt(variableExpressionMatcher.group(),"=");
+
             return this.outputVariable;
 
         }

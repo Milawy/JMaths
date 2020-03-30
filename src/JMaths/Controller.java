@@ -15,7 +15,7 @@ public class Controller implements Initializable {
     @FXML
     public TextField commandLine;
     @FXML
-    public TableView varList;
+    public TableView fctList, varList;
     @FXML
     public Button sendBtn, clearBtn;
     @FXML
@@ -26,8 +26,19 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Analyser analyser = new Analyser();
+
+        TableColumn fctName = new TableColumn("Name");
+        TableColumn fctVar = new TableColumn("Variable");
+        TableColumn fctExp = new TableColumn("Expression");
+
+        TableColumn varName = new TableColumn("Name");
+        TableColumn varValue = new TableColumn("Value");
+
+        fctList.getColumns().addAll(fctName, fctVar, fctExp);
+        varList.getColumns().addAll(varName, varValue);
+
         commandLine.setOnKeyReleased(event -> {
-            if(event.getCode() == KeyCode.ENTER){
+            if(event.getCode() == KeyCode.ENTER) {
                 printArea.appendText(analyser.setRawString(commandLine.getText()) + "\n");
                 commandLine.clear();
             }

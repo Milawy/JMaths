@@ -6,9 +6,9 @@ public class Function {
     protected String abstractVariable;
     protected String expression;
 
-    public Function(String name, String value, String expression){
+    public Function(String name, String abstractVariable, String expression){
         this.name = name;
-        this.abstractVariable = value;
+        this.abstractVariable = abstractVariable;
         this.expression = expression;
     }
 
