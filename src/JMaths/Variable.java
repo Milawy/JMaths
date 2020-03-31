@@ -3,7 +3,7 @@ package JMaths;
 public class Variable {
 
     protected String name;
-    protected double value;
+    protected Double value;
 
     public Variable(String name, double value){
         this.name = name;

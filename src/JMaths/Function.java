@@ -3,22 +3,23 @@ package JMaths;
 public class Function {
 
     protected String name;
-    protected String abstractVariable;
+    protected String variable;
     protected String expression;
 
-    public Function(String name, String abstractVariable, String expression){
+    public Function(String name, String abst, String expression){
         this.name = name;
-        this.abstractVariable = abstractVariable;
+        this.variable = abst;
         this.expression = expression;
     }
 
     public String getName(){ return name; }
-    public String getVariable(){ return abstractVariable; }
+    public String getVariable(){ return variable; }
     public String getExpression(){ return expression; }
 
     public void setName(String name){ this.name = name; }
-    public void setVariable(String abstractVariable){ this.abstractVariable = abstractVariable; }
+    public void setVariable(String abstractVariable){ this.variable = abstractVariable; }
     public void setExpression(String expression){ this.expression = expression; }
+
 
     //Main operations to do quick maths
     private String add(int x, int y){
@@ -36,5 +37,5 @@ public class Function {
     private String pow(int x, int y){
         return Integer.toString(x ^ y);
     }
-    
+
 }

@@ -33,15 +33,18 @@ public class Controller implements Initializable {
         Analyser analyser = new Analyser();
 
         // Creating columns
-        TableColumn fctName = new TableColumn("Name");
-        TableColumn fctVar = new TableColumn("Variable");
-        TableColumn fctExp = new TableColumn("Expression");
+        TableColumn<Function, String> fctName = new TableColumn<Function, String>("Name");
+        TableColumn<Function, String> fctVar = new TableColumn<Function, String>("Variable");
+        TableColumn<Function, String> fctExp = new TableColumn<Function, String>("Expression");
 
-        TableColumn varName = new TableColumn("Name");
-        TableColumn varValue = new TableColumn("Value");
+        TableColumn<Variable, String> varName = new TableColumn<Variable, String>("Name");
+        TableColumn<Variable, Double> varValue = new TableColumn<Variable, Double>("Value");
 
-        fctList.getColumns().addAll(fctName, fctVar, fctExp);
-        varList.getColumns().addAll(varName, varValue);
+        fctList.getColumns().add(fctName);
+        fctList.getColumns().add(fctVar);
+        fctList.getColumns().add(fctExp);
+        varList.getColumns().add(varName);
+        varList.getColumns().add(varValue);
 
         //TODO : Solve duplicate code in one method called by either ENTER key or SendBtn
 
@@ -61,7 +64,7 @@ public class Controller implements Initializable {
                             new Function("f", "x", "1 / x + 1")
                     );
                     fctName.setCellValueFactory(new PropertyValueFactory<Function, String>("name"));
-                    fctVar.setCellValueFactory(new PropertyValueFactory<Function, String>("abstractVariable"));
+                    fctVar.setCellValueFactory(new PropertyValueFactory<Function, String>("variable"));
                     fctExp.setCellValueFactory(new PropertyValueFactory<Function, String>("expression"));
 
                     fctList.setItems(fctData);
