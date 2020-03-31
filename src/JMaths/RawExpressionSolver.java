@@ -1,11 +1,10 @@
 package JMaths;
 
 import java.util.*;
-import java.io.*;
 import java.text.*;
 import java.math.*;
 
-// Stolen, then modified for fitting the project
+// Stolen, then modified to fit the project
 
 /****************************************
  * @Author: Mark Alexander Edwards Jr.
@@ -15,7 +14,8 @@ import java.math.*;
 
 public final class RawExpressionSolver {	// Utility classes don't need extensions!
     private RawExpressionSolver(){}	// Utility classes don't need to be instantiated!
-    /*Constants*/
+
+    // Constants
     private static final Character POW = '^';
     private static final Character MUL = '*';
     private static final Character DIV = '/';
@@ -28,7 +28,7 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
     private enum Direction {
         L_TO_R,
         R_TO_L
-    };
+    }
 
     /**
      * Performs an operation on the two numbers specified
@@ -162,9 +162,9 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
             perfectExpression += "" + finalExpression.charAt(i);
         }
         finalExpression = perfectExpression;
-        ArrayList<String> totalNumbers = new ArrayList<String>(0);
-        ArrayList<Character> totalOperations = new ArrayList<Character>(0);
-        System.out.println("finalExpression : " + finalExpression);
+        ArrayList<String> totalNumbers = new ArrayList<>(0);
+        ArrayList<Character> totalOperations = new ArrayList<>(0);
+        //System.out.println("finalExpression : " + finalExpression);
         for(int i = 0; i < finalExpression.length(); i++){
             if(finalExpression.charAt(i) >= '0' && finalExpression.charAt(i) <= '9'
                     || finalExpression.charAt(i) == '-' || finalExpression.charAt(i) == '.'
@@ -213,11 +213,11 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
      */
 
     private static void calculate(ArrayList<String> totalNumbers, ArrayList<Character> totalOperations, Character operands[], Direction dir){
-        String result = "";
+        String result;
         if(dir == Direction.L_TO_R){
             for(int i = 0; i < totalOperations.size(); i++){
                 if(containsCharacter(totalOperations.get(i), operands)){
-                    result = doOperation(totalNumbers.get(i), (char)totalOperations.get(i), totalNumbers.get(i + 1));
+                    result = doOperation(totalNumbers.get(i), /*(char)*/totalOperations.get(i), totalNumbers.get(i + 1));
                     totalNumbers.set(i, result);
                     totalOperations.remove(i);
                     totalNumbers.remove(i + 1);
@@ -227,7 +227,7 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
         }else if(dir == Direction.R_TO_L){
             for(int i = totalOperations.size() - 1; i >= 0; i--){
                 if(containsCharacter(totalOperations.get(i), operands)){
-                    result = doOperation(totalNumbers.get(i), (char)totalOperations.get(i), totalNumbers.get(i + 1));
+                    result = doOperation(totalNumbers.get(i), /*(char)*/totalOperations.get(i), totalNumbers.get(i + 1));
                     totalNumbers.set(i, result);
                     totalOperations.remove(i);
                     totalNumbers.remove(i + 1);
@@ -262,9 +262,9 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
 
     public static String solve(String eq){
         if(isSolvable(eq)){
-            System.out.println("eq : " + eq);	// Prints out the equation before it is parsed
+            System.out.println("equation : " + eq);	// Prints out the equation before it is parsed
             String value = "(" + eq + ")";	// Appending parenthesis to the equation for accuracy
-            return parse(value); //	returning the final value of the expression
+            return "result : " + parse(value); //	returning the final value of the expression
         }else return "";
     }
 

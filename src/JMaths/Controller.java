@@ -1,7 +1,5 @@
 package JMaths;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -39,7 +37,6 @@ public class Controller implements Initializable {
     //The one that is creating the Table rows
     private void manageTab(){
         Object objectTyped = analyser.setRawString(commandLine.getText());
-        commandLine.clear();
 
         // If analyser.setRawString() returns a function
         if (analyser.isFunction){
@@ -47,15 +44,12 @@ public class Controller implements Initializable {
             //Converts Object to Function
             Function fctTyped = (Function) objectTyped;
 
-            //Creating the line to add with function parameters
-            final ObservableList<Function> fctData = FXCollections.observableArrayList(
-                    new Function(fctTyped.getName(), fctTyped.getVariable(), fctTyped.getExpression())
-            );
+            //Adding the function, its variable and its expression typed by the user in the TableView
             fctName.setCellValueFactory(new PropertyValueFactory<>("name"));
             fctVar.setCellValueFactory(new PropertyValueFactory<>("variable"));
             fctExp.setCellValueFactory(new PropertyValueFactory<>("expression"));
 
-            fctList.setItems(fctData);
+            fctList.getItems().add(fctTyped);
         }
 
         // If analyser.setRawString() returns a variable
@@ -64,18 +58,18 @@ public class Controller implements Initializable {
             //Converts Object to Variable
             Variable varTyped = (Variable) objectTyped;
 
-            //Creating the line to add with variable parameters
-            final ObservableList<Variable> varData = FXCollections.observableArrayList(
-                    new Variable(varTyped.getName(), varTyped.getValue())
-            );
+            //Adding the variable and its value typed by the user in the TableView
             varName.setCellValueFactory(new PropertyValueFactory<>("name"));
             varValue.setCellValueFactory(new PropertyValueFactory<>("value"));
 
-            varList.setItems(varData);
+            varList.getItems().add(varTyped);
         }
 
-        else { System.out.println("Not a function nor a Variable"); }
+        //TODO : Problem when returning a String, that is announcing an error in the typed text by the user.
 
+        else { printArea.appendText(analyser.setRawString(commandLine.getText()).toString()); }
+
+        commandLine.clear();
     }
 
     @Override

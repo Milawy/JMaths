@@ -1,7 +1,5 @@
 package JMaths;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
 import java.util.regex.*;
 
 public class Analyser {
@@ -14,10 +12,6 @@ public class Analyser {
     private static Pattern variablePattern, variableNamePattern, variableExpressionPattern;
     private static Pattern printPattern;
     private static Pattern plotPattern;
-
-    //To write error messages in textArea
-    @FXML
-    public TextArea printArea;
 
     // Constructor containing all regex expressions we need
     public Analyser(){
@@ -32,7 +26,6 @@ public class Analyser {
         variableExpressionPattern = Pattern.compile("=[a-zA-Z0-9.^\\/+\\-*]+");
         printPattern = Pattern.compile("^print\\([a-zA-Z]+,[a-zA-Z0-9]+\\)");
         plotPattern = Pattern.compile("^plot\\([a-zA-Z]+,[a-zA-Z0-9]+,[a-zA-Z0-9]+\\)");
-
     }
 
     // Purge useless char in String
@@ -40,7 +33,6 @@ public class Analyser {
 
         str = str.replace(toPurge, "");
         return str;
-
     }
 
     //The main function of Analyser
@@ -76,19 +68,13 @@ public class Analyser {
                 // Update content indicator
                 this.isFunction = true;
 
-                //Creating Function class with the textField content
-                Function function = new Function(functionNameMatcher.group(),
+                //return function because we know that the user wrote a function
+                return new Function(functionNameMatcher.group(),
                         purgeIt(functionVariableMatcher.group(), "("),
                         purgeIt(functionExpressionMatcher.group(), "="));
-
-                //return function because we know that the user wrote a function
-                return function;
             }
 
-            else{
-                printArea.appendText("Wrong function syntax" + "\n" + "Try with the following syntax :" + "\n" + "functionName(variableName)=functionExpression" + "\n");
-                return -1;
-            }
+            else{ return "Wrong function syntax" + "\n" + "Try with the following syntax :" + "\n" + "functionName(variableName)=functionExpression" + "\n"; }
         }
 
         else if(variableMatcher.find()) {
@@ -98,28 +84,19 @@ public class Analyser {
                 // Update content indicator
                 this.isVariable = true;
 
-                //Creating Function class with the textField content
-                Variable variable = new Variable(variableNameMatcher.group(),
-                        Double.parseDouble(purgeIt(variableExpressionMatcher.group(), "=")));
-
                 //return variable because we know that the user wrote a variable
-                return variable;
+                return new Variable(variableNameMatcher.group(),
+                        Double.parseDouble(purgeIt(variableExpressionMatcher.group(), "=")));
             }
 
-            else{
-                printArea.appendText("Wrong variable syntax" + "\n" + "Try with the following syntax :" + "\n" + "variableName=variableExpression" + "\n");
-                return -1;
-            }
+            else{ return "Wrong variable syntax" + "\n" + "Try with the following syntax :" + "\n" + "variableName=variableExpression" + "\n"; }
         }
 
         else if(printMatcher.find()) { return printMatcher.group(); }
 
         else if(plotMatcher.find()) { return plotMatcher.group(); }
 
-        else{
-            printArea.appendText("No matches" + "\n" + "Please define a function, a variable or use a command" + "\n");
-            return -1;
-        }
+        else{ return "No matches" + "\n" + "Please define a function, a variable or use a command" + "\n"; }
     }
 
     // Explicit
@@ -127,6 +104,5 @@ public class Analyser {
 
         this.rawString = raw;
         return this.analyse();
-
     }
 }

@@ -16,5 +16,4 @@ public class Variable {
     public double getValue() { return value; }
     public void setName(String name) { this.name = name; }
     public void setValue(double value) { this.value = value; }
-
 }

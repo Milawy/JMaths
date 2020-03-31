@@ -37,5 +37,4 @@ public class Function {
     private String pow(int x, int y){
         return Integer.toString(x ^ y);
     }
-
 }
