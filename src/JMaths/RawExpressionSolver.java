@@ -164,7 +164,7 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
         finalExpression = perfectExpression;
         ArrayList<String> totalNumbers = new ArrayList<String>(0);
         ArrayList<Character> totalOperations = new ArrayList<Character>(0);
-        System.out.println(finalExpression);
+        System.out.println("finalExpression : " + finalExpression);
         for(int i = 0; i < finalExpression.length(); i++){
             if(finalExpression.charAt(i) >= '0' && finalExpression.charAt(i) <= '9'
                     || finalExpression.charAt(i) == '-' || finalExpression.charAt(i) == '.'
@@ -262,7 +262,7 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
 
     public static String solve(String eq){
         if(isSolvable(eq)){
-            System.out.println(eq);	// Prints out the equation before it is parsed
+            System.out.println("eq : " + eq);	// Prints out the equation before it is parsed
             String value = "(" + eq + ")";	// Appending parenthesis to the equation for accuracy
             return parse(value); //	returning the final value of the expression
         }else return "";

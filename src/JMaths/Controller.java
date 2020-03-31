@@ -48,7 +48,7 @@ public class Controller implements Initializable {
 
             //TODO : dynamic parameters
 
-            System.out.println(test.getName());
+            //System.out.println(test.getName());
 
             //Creating the line to add with function parameters
             final ObservableList<Function> fctData = FXCollections.observableArrayList(
@@ -66,7 +66,7 @@ public class Controller implements Initializable {
 
             //TODO : dynamic parameters
 
-            System.out.println(test.getName());
+            //System.out.println(test.getName());
 
             //Creating the line to add with variable parameters
             final ObservableList<Variable> varData = FXCollections.observableArrayList(
