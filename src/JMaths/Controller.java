@@ -2,8 +2,6 @@ package JMaths;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -31,32 +29,31 @@ public class Controller implements Initializable {
     //Define Analyser class + all TableColumns we need
     Analyser analyser = new Analyser();
 
-    TableColumn<Function, String> fctName = new TableColumn<Function, String>("Name");
-    TableColumn<Function, String> fctVar = new TableColumn<Function, String>("Variable");
-    TableColumn<Function, String> fctExp = new TableColumn<Function, String>("Expression");
+    TableColumn<Function, String> fctName = new TableColumn<>("Name");
+    TableColumn<Function, String> fctVar = new TableColumn<>("Variable");
+    TableColumn<Function, String> fctExp = new TableColumn<>("Expression");
 
-    TableColumn<Variable, String> varName = new TableColumn<Variable, String>("Name");
-    TableColumn<Variable, Double> varValue = new TableColumn<Variable, Double>("Value");
+    TableColumn<Variable, String> varName = new TableColumn<>("Name");
+    TableColumn<Variable, Double> varValue = new TableColumn<>("Value");
 
     //The one that is creating the Table rows
     private void manageTab(){
-        Object test = analyser.setRawString(commandLine.getText());
+        Object objectTyped = analyser.setRawString(commandLine.getText());
         commandLine.clear();
 
         // If analyser.setRawString() returns a function
         if (analyser.isFunction){
 
-            //TODO : dynamic parameters
-
-            //System.out.println(test.getName());
+            //Converts Object to Function
+            Function fctTyped = (Function) objectTyped;
 
             //Creating the line to add with function parameters
             final ObservableList<Function> fctData = FXCollections.observableArrayList(
-                    new Function("f", "x", "1 / x + 1")
+                    new Function(fctTyped.getName(), fctTyped.getVariable(), fctTyped.getExpression())
             );
-            fctName.setCellValueFactory(new PropertyValueFactory<Function, String>("name"));
-            fctVar.setCellValueFactory(new PropertyValueFactory<Function, String>("variable"));
-            fctExp.setCellValueFactory(new PropertyValueFactory<Function, String>("expression"));
+            fctName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            fctVar.setCellValueFactory(new PropertyValueFactory<>("variable"));
+            fctExp.setCellValueFactory(new PropertyValueFactory<>("expression"));
 
             fctList.setItems(fctData);
         }
@@ -64,16 +61,15 @@ public class Controller implements Initializable {
         // If analyser.setRawString() returns a variable
         else if (analyser.isVariable){
 
-            //TODO : dynamic parameters
-
-            //System.out.println(test.getName());
+            //Converts Object to Variable
+            Variable varTyped = (Variable) objectTyped;
 
             //Creating the line to add with variable parameters
             final ObservableList<Variable> varData = FXCollections.observableArrayList(
-                    new Variable("x", 10)
+                    new Variable(varTyped.getName(), varTyped.getValue())
             );
-            varName.setCellValueFactory(new PropertyValueFactory<Variable, String>("name"));
-            varValue.setCellValueFactory(new PropertyValueFactory<Variable, Double>("value"));
+            varName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            varValue.setCellValueFactory(new PropertyValueFactory<>("value"));
 
             varList.setItems(varData);
         }
@@ -93,24 +89,12 @@ public class Controller implements Initializable {
         varList.getColumns().add(varValue);
 
         // When releasing ENTER key
-        commandLine.setOnKeyReleased(event -> {
-            if(event.getCode() == KeyCode.ENTER) {
-                manageTab();
-            }
-        });
+        commandLine.setOnKeyReleased(event -> { if(event.getCode() == KeyCode.ENTER) { manageTab(); } });
 
         // When pressing send button
-        sendBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent actionEvent) {
-                manageTab();
-            }
-        });
+        sendBtn.setOnAction(actionEvent -> manageTab());
 
         // When pressing clear button
-        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent actionEvent) {
-                printArea.setText("");
-            }
-        });
+        clearBtn.setOnAction(actionEvent -> printArea.setText(""));
     }
 }
