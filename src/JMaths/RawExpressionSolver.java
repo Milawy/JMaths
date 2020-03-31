@@ -16,11 +16,11 @@ import java.math.*;
 public final class RawExpressionSolver {	// Utility classes don't need extensions!
     private RawExpressionSolver(){}	// Utility classes don't need to be instantiated!
     /*Constants*/
-    private static final Character POW = new Character('^');
-    private static final Character MUL = new Character('*');
-    private static final Character DIV = new Character('/');
-    private static final Character MOD = new Character('%');
-    private static final Character ADD = new Character('+');
+    private static final Character POW = '^';
+    private static final Character MUL = '*';
+    private static final Character DIV = '/';
+    private static final Character MOD = '%';
+    private static final Character ADD = '+';
     private static final Character[] firstSet = {POW}, secondSet = {MUL, DIV, MOD}, thirdSet = {ADD};
     private static final DecimalFormat DF = new DecimalFormat();
     private static final StringBuffer SB = new StringBuffer();
@@ -29,9 +29,11 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
         L_TO_R,
         R_TO_L
     };
+
     /**
      * Performs an operation on the two numbers specified
      */
+
     private static String doOperation(String lhs, char operator, String rhs){
         BigDecimal bdLhs = new BigDecimal(lhs);
         BigDecimal bdRhs = new BigDecimal(rhs);
@@ -49,25 +51,27 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
         }
         return "";
     }
+
     /**
      * Returns a corrected version of the String, which is one that
      * has its first and last parenthesis removed.
      */
+
     private static String correctedString(String arg){
         StringBuilder sb = new StringBuilder(); // A Mutable String
         boolean foundFirst = false;
         for(int i = 0; i < arg.length(); i++)
-            if(foundFirst == false && arg.charAt(i) == '(')
+            if(!foundFirst && arg.charAt(i) == '(')
                 foundFirst = true;
             else sb.append(arg.charAt(i));
-        arg = new StringBuilder(sb.reverse()).toString();
+        arg = String.valueOf(sb.reverse());
         sb.delete(0, sb.length());
         foundFirst = false;
         for(int i = 0; i < arg.length(); i++)
-            if(foundFirst == false && arg.charAt(i) == ')')
+            if(!foundFirst && arg.charAt(i) == ')')
                 foundFirst = true;
             else sb.append(arg.charAt(i));
-        return arg = new StringBuilder(sb.reverse()).toString();
+        return arg = String.valueOf(sb.reverse());
     }
     /**
      * Provides a means of halting a process for a specified amount of time
@@ -91,6 +95,7 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
                 temp += "" + argu.charAt(i);
         return temp;
     }
+
     /**
      * Contains an expression that exists within parenthesis
      * i.e., (5+3), (6 + 2), etc.
@@ -105,6 +110,7 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
      * a new ExpressionNode will be created and will solve
      * the inner expression.
      */
+
     private static String parse(String arg){
         String expression = removeSpaces(correctedString(arg));
         String finalExpression = "";
@@ -113,7 +119,7 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
         for(int i = 0; i < expression.length(); i++){
             if(expression.charAt(i) == '('){
                 String multiply = "";
-                if(operatorEncountered == false && initialValue == false){
+                if(!operatorEncountered && !initialValue){
                     multiply += "*";
                 }
                 String placeHolder = "(";
@@ -130,9 +136,9 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
                 finalExpression += multiply + evaluatedString;
                 i+= (placeHolder.length() - 1);
             }else{
-                if(expression.charAt(i) == '-' && operatorEncountered == false){
+                if(expression.charAt(i) == '-' && !operatorEncountered){
                     finalExpression += ((!initialValue) ? "+": "") + expression.charAt(i);
-                }else if(expression.charAt(i) == '-' && operatorEncountered == true){
+                }else if(expression.charAt(i) == '-' && operatorEncountered){
                     finalExpression += "-1*";
                 }else finalExpression += expression.charAt(i);
                 if((expression.charAt(i) == '+'
@@ -179,7 +185,7 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
                     || finalExpression.charAt(i) == '+'
                     || finalExpression.charAt(i) == '%'
             ){
-                totalOperations.add(new Character(finalExpression.charAt(i)));
+                totalOperations.add(finalExpression.charAt(i));
             }
         }
         calculate(totalNumbers, totalOperations, firstSet, Direction.R_TO_L);
@@ -187,9 +193,11 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
         calculate(totalNumbers, totalOperations, thirdSet, Direction.L_TO_R);
         return totalNumbers.get(0);
     }
+
     /**
      * Returns true if the target character exists in the set of Character operands, returns false otherwise.
      */
+
     private static boolean containsCharacter(Character anOperation, Character operands[]){
         for(Character item : operands){
             if(anOperation.equals(item)){
@@ -198,10 +206,12 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
         }
         return false;
     }
+
     /**
-     * Attempts to solve an equation that is seperated into a set of numbers and operands.
+     * Attempts to solve an equation that is separated into a set of numbers and operands.
      * (More to add)
      */
+
     private static void calculate(ArrayList<String> totalNumbers, ArrayList<Character> totalOperations, Character operands[], Direction dir){
         String result = "";
         if(dir == Direction.L_TO_R){
@@ -225,40 +235,46 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
             }
         }
     }
+
     /**
      * Checks to see if the expression is solvable or not.
      *
      * This method is actually a misnomer, because more restrictions
      * should be put in place on what a user can determine as solvable.
      */
+
     private static boolean isSolvable(String eq){
-        int paranthesisCount = 0;	// assuming 0 paranthesis to begin with
+        int parenthesisCount = 0;	// assuming 0 parenthesis to begin with
         for(char element : eq.toCharArray()){	// for every char in the String eq
-            if(element == '(')	// if the element is a left paranthesis
-                paranthesisCount++;	// increment the paranthesisCount
-            else if(element == ')')	// else if the element is a right paranthesis
-                paranthesisCount--;	// decrement the paranthesisCount
-            if(paranthesisCount < 0)	// if brackets aren't in correct order, return false
+            if(element == '(')	// if the element is a left parenthesis
+                parenthesisCount++;	// increment the parenthesisCount
+            else if(element == ')')	// else if the element is a right parenthesis
+                parenthesisCount--;	// decrement the parenthesisCount
+            if(parenthesisCount < 0)	// if brackets aren't in correct order, return false
                 return false;
         }
-        return paranthesisCount == 0;	// return true if paranthesisCount is zero, otherwise return false
+        return parenthesisCount == 0;	// return true if parenthesisCount is zero, otherwise return false
     }
+
     /**
      * Attempts to solve an equation
      */
+
     public static String solve(String eq){
         if(isSolvable(eq)){
             System.out.println(eq);	// Prints out the equation before it is parsed
-            String value = "(" + eq + ")";	// Appending paranthesis to the equation for accuracy
+            String value = "(" + eq + ")";	// Appending parenthesis to the equation for accuracy
             return parse(value); //	returning the final value of the expression
         }else return "";
     }
+
     /**
      * Attempts to solve an equation, with the precision factor taken into account.
      *
      * The maximum precision is 40, only because the max precision for the MathContext object is 40
      * though this is not required and can be changed in future versions.
      */
+
     public static String solve(String eq, int precision){
         SB.delete(0, SB.length());
         return DF.format( (double)Double.parseDouble(solve(eq)), SB, new FieldPosition(precision) ).toString();	// formatted answer
