@@ -16,10 +16,10 @@ public class Analyser {
     // Constructor containing all regex expressions we need
     public Analyser(){
 
-        functionPattern = Pattern.compile("^[a-zA-Z]+\\([a-zA-Z]+\\)=[a-zA-Z0-9.^\\/+\\-*]+");
+        functionPattern = Pattern.compile("^[a-zA-Z]+\\([a-zA-Z]+\\)=[a-zA-Z0-9\\(\\).^\\/+\\-*]+");
         functionNamePattern = Pattern.compile("^[a-zA-Z]+");
         functionVariablePattern = Pattern.compile("\\([a-zA-Z]+");
-        functionExpressionPattern = Pattern.compile("=[a-zA-Z0-9.^\\/+\\-*]+");
+        functionExpressionPattern = Pattern.compile("=[a-zA-Z0-9.^\\(\\)\\/+\\-*]+");
 
         variablePattern = Pattern.compile("^[a-zA-Z]+=[a-zA-Z0-9.^\\/+\\-*]+");
         variableNamePattern = Pattern.compile("^[a-zA-Z]+");

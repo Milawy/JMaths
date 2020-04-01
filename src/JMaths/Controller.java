@@ -24,8 +24,9 @@ public class Controller implements Initializable {
     @FXML
     public LineChart lineChart;
 
-    //Define Analyser class + all TableColumns we need
+    //Define Analyser/Solver classes + all TableColumns we need
     Analyser analyser = new Analyser();
+    FunctionSolver fctSolver = new FunctionSolver();
 
     TableColumn<Function, String> fctName = new TableColumn<>("Name");
     TableColumn<Function, String> fctVar = new TableColumn<>("Variable");
@@ -43,6 +44,7 @@ public class Controller implements Initializable {
 
             //Converts Object to Function
             Function fctTyped = (Function) objectTyped;
+            fctSolver.solveFunctions(fctTyped.getExpression() , fctName, fctVar, fctExp, fctList);
 
             //Adding the function, its variable and its expression typed by the user in the TableView
             fctName.setCellValueFactory(new PropertyValueFactory<>("name"));
