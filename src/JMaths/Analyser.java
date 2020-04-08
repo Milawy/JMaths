@@ -85,8 +85,7 @@ public class Analyser {
                 this.isVariable = true;
 
                 //return variable because we know that the user wrote a variable
-                return new Variable(variableNameMatcher.group(),
-                        Double.parseDouble(purgeIt(variableExpressionMatcher.group(), "=")));
+                return new Variable(variableNameMatcher.group(), purgeIt(variableExpressionMatcher.group(), "="));
             }
 
             else{ return "Wrong variable syntax" + "\n" + "Try with the following syntax :" + "\n" + "variableName=variableExpression" + "\n"; }

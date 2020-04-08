@@ -27,13 +27,14 @@ public class Controller implements Initializable {
     //Define Analyser/Solver classes + all TableColumns we need
     Analyser analyser = new Analyser();
     FunctionSolver fctSolver = new FunctionSolver();
+    VariableSolver varSolver = new VariableSolver();
 
     TableColumn<Function, String> fctName = new TableColumn<>("Name");
     TableColumn<Function, String> fctVar = new TableColumn<>("Variable");
     TableColumn<Function, String> fctExp = new TableColumn<>("Expression");
 
     TableColumn<Variable, String> varName = new TableColumn<>("Name");
-    TableColumn<Variable, Double> varValue = new TableColumn<>("Value");
+    TableColumn<Variable, String> varValue = new TableColumn<>("Value");
 
     //The one that is creating the Table rows
     private void manageTab(){
@@ -44,7 +45,9 @@ public class Controller implements Initializable {
 
             //Converts Object to Function
             Function fctTyped = (Function) objectTyped;
-            fctSolver.solveFunctions(fctTyped.getExpression() , fctName, fctVar, fctExp, fctList);
+            fctSolver.solveFunctions(fctTyped.getExpression(), fctName, fctVar, fctExp, fctList, varName, varValue, varList);
+            System.out.println(fctSolver.getResult());
+            varSolver.solveVariable(fctSolver.getResult(), varName, varValue, varList);
 
             //Adding the function, its variable and its expression typed by the user in the TableView
             fctName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -59,6 +62,7 @@ public class Controller implements Initializable {
 
             //Converts Object to Variable
             Variable varTyped = (Variable) objectTyped;
+            varSolver.solveVariable(varTyped.getValue(), varName, varValue, varList);
 
             //Adding the variable and its value typed by the user in the TableView
             varName.setCellValueFactory(new PropertyValueFactory<>("name"));

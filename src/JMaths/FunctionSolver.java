@@ -35,21 +35,21 @@ public class FunctionSolver {
         return -1;
     }
 
-    private String getResult(){
+    public String getResult(){
         return this.result;
     }
 
-    public void solveFunctions(String rawString, TableColumn<Function, String> fctNameCol, TableColumn<Function, String> fctVarCol, TableColumn<Function, String> fctExpCol, TableView<Function> tableView){
+    public void solveFunctions(String rawString, TableColumn<Function, String> fctNameCol, TableColumn<Function, String> fctVarCol, TableColumn<Function, String> fctExpCol, TableView<Function> tableView, TableColumn<Variable, String> varNameCol, TableColumn<Variable, String> varValCol, TableView<Variable> varTableView){
 
         this.result = rawString;
-        boolean b = this.solveFunctionsRecursive(this.result , fctNameCol, fctVarCol, fctExpCol, tableView);
+        boolean b = this.solveFunctionsRecursive(this.result, fctNameCol, fctVarCol, fctExpCol, tableView, varNameCol, varValCol, varTableView);
         while(!b){
             System.out.println(this.result);
-            b = this.solveFunctionsRecursive(this.result , fctNameCol, fctVarCol, fctExpCol, tableView);
+            b = this.solveFunctionsRecursive(this.result, fctNameCol, fctVarCol, fctExpCol, tableView, varNameCol, varValCol, varTableView);
         }
     }
 
-    public boolean solveFunctionsRecursive(String rawString, TableColumn<Function, String> fctNameCol, TableColumn<Function, String> fctVarCol, TableColumn<Function, String> fctExpCol, TableView<Function> tableView){
+    public boolean solveFunctionsRecursive(String rawString, TableColumn<Function, String> fctNameCol, TableColumn<Function, String> fctVarCol, TableColumn<Function, String> fctExpCol, TableView<Function> tableView, TableColumn<Variable, String> varNameCol, TableColumn<Variable, String> varValCol, TableView<Variable> varTableView){
 
         Matcher functionMatcher;
         this.isFinished = true;
@@ -74,7 +74,9 @@ public class FunctionSolver {
 
         // fill the list with the detected functions
         while(functionMatcher.find()){
-                nameFounded.add(functionMatcher.group());
+
+            // test if the name is a trigonometric function and then replace by it's value
+            nameFounded.add(functionMatcher.group());
         }
 
         if(nameFounded.size() != 0){
