@@ -73,7 +73,7 @@ public class VariableSolver {
         return this.isFinished;
     }
 
-    private String getResult(){
+    public String getResult(){
         return this.result;
     }
 

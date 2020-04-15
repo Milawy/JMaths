@@ -19,9 +19,9 @@ public class FunctionSolver {
 
     public FunctionSolver(){
 
-        functionPattern = Pattern.compile("[a-zA-Z]+\\([a-zA-Z]+\\)");
+        functionPattern = Pattern.compile("[a-zA-Z]+\\([a-zA-Z0-9.^\\/\\+\\-\\*]+\\)");
         functionNamePattern = Pattern.compile("^[a-zA-Z]+");
-        functionVariablePattern = Pattern.compile("\\([a-zA-Z]+");
+        functionVariablePattern = Pattern.compile("\\([a-zA-Z0-9.^\\/\\+\\-\\*]+");
 
         this.isFinished = false;
     }
@@ -44,9 +44,14 @@ public class FunctionSolver {
         this.result = rawString;
         boolean b = this.solveFunctionsRecursive(this.result, fctNameCol, fctVarCol, fctExpCol, tableView, varNameCol, varValCol, varTableView);
         while(!b){
-            System.out.println(this.result);
             b = this.solveFunctionsRecursive(this.result, fctNameCol, fctVarCol, fctExpCol, tableView, varNameCol, varValCol, varTableView);
         }
+    }
+
+    protected String purgeIt(String str, String toPurge){
+
+        str = str.replace(toPurge, "");
+        return str;
     }
 
     public boolean solveFunctionsRecursive(String rawString, TableColumn<Function, String> fctNameCol, TableColumn<Function, String> fctVarCol, TableColumn<Function, String> fctExpCol, TableView<Function> tableView, TableColumn<Variable, String> varNameCol, TableColumn<Variable, String> varValCol, TableView<Variable> varTableView){
@@ -87,6 +92,8 @@ public class FunctionSolver {
 
             // find the name of the function to compare it with existing ones
             Matcher functionNameMatcher = functionNamePattern.matcher(elt);
+            Matcher functionVariableMatcher = functionVariablePattern.matcher(elt);
+
             String fctName;
 
             if(functionNameMatcher.find()){
@@ -94,11 +101,20 @@ public class FunctionSolver {
                 fctName = functionNameMatcher.group();
                 Integer id = find(nameList, fctName);
 
-                if(id != -1){ // In replaceAll function you give a regex so we have to add backslash before parenthesis 
-                    elt = elt.replaceAll("\\(", "\\\\(");
-                    elt = elt.replaceAll("\\)", "\\\\)");
+                elt = elt.replaceAll("\\(", "\\\\(");
+                elt = elt.replaceAll("\\)", "\\\\)");
+                elt = elt.replaceAll("\\*", "\\\\*");
+                elt = elt.replaceAll("\\+", "\\\\+");
+                elt = elt.replaceAll("\\/", "\\\\/");
+                elt = elt.replaceAll("\\-", "\\\\-");
+
+                if(id != -1){ // In replaceFirst function you give a regex so we have to add backslash before parenthesis
                     this.result = result.replaceFirst(elt, expressionList.get(id));
                 }
+                else if(functionVariableMatcher.find() && !solveTrigoFunction(fctName, functionVariableMatcher.group(), elt, varNameCol, varValCol, varTableView)){ // if the function isn't declared it could be a trigo function
+                    // TODO : cannot find this function and break the loop of solveFunctions
+                }
+
             }
             else{
                 System.out.println("Error in the function name");
@@ -106,5 +122,51 @@ public class FunctionSolver {
         });
 
         return this.isFinished;
+    }
+
+    protected Boolean solveTrigoFunction(String name, String var, String elt, TableColumn<Variable, String> varNameCol, TableColumn<Variable, String> varValCol, TableView<Variable> tableView){
+
+        // purge the '('
+        var = purgeIt(var, "(");
+
+        // TODO : solve the var for getting a numerical value
+        VariableSolver varSolver = new VariableSolver();
+        varSolver.solveVariable(var, varNameCol, varValCol, tableView);
+        var = varSolver.getResult();
+
+        String val = new RawExpressionSolver().solve(var);
+
+        switch(name) {
+            case "cos":
+                val = Double.toString(Math.cos(Double.parseDouble(val)));
+                break;
+            case "sin":
+                val = Double.toString(Math.sin(Double.parseDouble(val)));
+                break;
+            case "tan":
+                val = Double.toString(Math.tan(Double.parseDouble(val)));
+                break;
+            case "arccos":
+                val = Double.toString(Math.acos(Double.parseDouble(val)));
+                break;
+            case "arcsin":
+                val = Double.toString(Math.asin(Double.parseDouble(val)));
+                break;
+            case "arctan":
+                val = Double.toString(Math.atan(Double.parseDouble(val)));
+            case "exp":
+                val = Double.toString(Math.exp(Double.parseDouble(val)));
+            case "log": // base 10
+                val = Double.toString(Math.log10(Double.parseDouble(val)));
+                break;
+            case "ln": // base 2
+                val = Double.toString(Math.log(Double.parseDouble(val)));
+                break;
+            default:
+                return false;
+        }
+
+        this.result = result.replaceFirst(elt, val);
+        return true;
     }
 }

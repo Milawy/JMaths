@@ -13,7 +13,7 @@ import java.math.*;
  ****************************************/
 
 public final class RawExpressionSolver {	// Utility classes don't need extensions!
-    private RawExpressionSolver(){}	// Utility classes don't need to be instantiated!
+    public RawExpressionSolver(){}	// Utility classes don't need to be instantiated!
 
     // Constants
     private static final Character POW = '^';
@@ -262,9 +262,9 @@ public final class RawExpressionSolver {	// Utility classes don't need extension
 
     public static String solve(String eq){
         if(isSolvable(eq)){
-            System.out.println("equation : " + eq);	// Prints out the equation before it is parsed
+            //System.out.println("equation : " + eq);	// Prints out the equation before it is parsed
             String value = "(" + eq + ")";	// Appending parenthesis to the equation for accuracy
-            return "result : " + parse(value); //	returning the final value of the expression
+            return parse(value); //	returning the final value of the expression
         }else return "";
     }
 
