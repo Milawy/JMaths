@@ -1,5 +1,7 @@
 package JMaths;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -36,8 +38,14 @@ public class Controller implements Initializable {
     TableColumn<Variable, String> varName = new TableColumn<>("Name");
     TableColumn<Variable, String> varValue = new TableColumn<>("Value");
 
+    ObservableList<String> historyList = FXCollections.observableArrayList();
+    Integer historyId = -1;
+
     //The one that is creating the Table rows
     private void manageTab(){
+
+        historyId = -1;
+        historyList.add(0, commandLine.getText());
         Object objectTyped = analyser.setRawString(commandLine.getText());
 
         // If analyser.setRawString() returns a function
@@ -96,13 +104,32 @@ public class Controller implements Initializable {
         varList.getColumns().add(varName);
         varList.getColumns().add(varValue);
 
-        // When releasing ENTER key
-        commandLine.setOnKeyReleased(event -> { if(event.getCode() == KeyCode.ENTER) { manageTab(); } });
+        // Command line listeners
+        commandLine.setOnKeyReleased(event -> {
+            if(event.getCode() == KeyCode.ENTER) { manageTab(); }
+            else if(event.getCode() == KeyCode.UP) { climbUpHistory(); }
+            else if(event.getCode() == KeyCode.DOWN) { climbDownHistory(); }
+        });
 
         // When pressing send button
         sendBtn.setOnAction(actionEvent -> manageTab());
 
         // When pressing clear button
         clearBtn.setOnAction(actionEvent -> printArea.setText(""));
+    }
+
+    private void climbUpHistory(){
+        if(historyId+1 < historyList.size()){
+            historyId++;
+            commandLine.setText(historyList.get(historyId));
+        }
+
+    }
+
+    private void climbDownHistory(){
+        if(historyId > 0){
+            historyId--;
+            commandLine.setText(historyList.get(historyId));
+        }
     }
 }
