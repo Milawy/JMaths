@@ -45,6 +45,7 @@ public class Controller implements Initializable {
 
             //Converts Object to Function
             Function fctTyped = (Function) objectTyped;
+
             fctSolver.solveFunctions(fctTyped.getExpression(), fctName, fctVar, fctExp, fctList, varName, varValue, varList);
             varSolver.solveVariable(fctSolver.getResult(), varName, varValue, varList);
 
@@ -68,6 +69,14 @@ public class Controller implements Initializable {
             varValue.setCellValueFactory(new PropertyValueFactory<>("value"));
 
             varList.getItems().add(varTyped);
+        }
+
+        // If analyser.setRawString() returns a printFct
+        else if(analyser.isPrint){
+
+            //Converts Object to PrintFct
+            PrintFct printLine = (PrintFct) objectTyped;
+            printArea.appendText(printLine.solve(fctName, fctVar, fctExp, fctList, varName, varValue, varList) + "\n");
         }
 
         //TODO : Problem when returning a String, that is announcing an error in the typed text by the user.

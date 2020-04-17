@@ -19,9 +19,9 @@ public class FunctionSolver {
 
     public FunctionSolver(){
 
-        functionPattern = Pattern.compile("[a-zA-Z]+\\([a-zA-Z0-9.^\\/\\+\\-\\*]+\\)");
+        functionPattern = Pattern.compile("[a-zA-Z]+\\([a-zA-Z0-9.\\^\\/\\+\\-\\*]+\\)");
         functionNamePattern = Pattern.compile("^[a-zA-Z]+");
-        functionVariablePattern = Pattern.compile("\\([a-zA-Z0-9.^\\/\\+\\-\\*]+");
+        functionVariablePattern = Pattern.compile("\\([a-zA-Z0-9.\\^\\/\\+\\-\\*]+");
 
         this.isFinished = false;
     }
@@ -107,6 +107,7 @@ public class FunctionSolver {
                 elt = elt.replaceAll("\\+", "\\\\+");
                 elt = elt.replaceAll("\\/", "\\\\/");
                 elt = elt.replaceAll("\\-", "\\\\-");
+                elt = elt.replaceAll("\\^", "\\\\^");
 
                 if(id != -1){ // In replaceFirst function you give a regex so we have to add backslash before parenthesis
                     this.result = result.replaceFirst(elt, expressionList.get(id));

@@ -51,6 +51,7 @@ public class VariableSolver {
             valueList.add(varValCol.getCellObservableValue(item).getValue());
         }
 
+        // TODO : replace the value of declared variable
         // fill the list with the detected variables
         while(variableMatcher.find()){
             varFounded.add(variableMatcher.group());

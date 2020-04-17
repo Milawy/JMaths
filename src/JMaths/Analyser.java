@@ -6,11 +6,11 @@ public class Analyser {
 
     private String rawString;
 
-    public Boolean isFunction, isVariable;
+    public Boolean isFunction, isVariable, isPrint;
 
     private static Pattern functionPattern, functionNamePattern, functionVariablePattern, functionExpressionPattern;
     private static Pattern variablePattern, variableNamePattern, variableExpressionPattern;
-    private static Pattern printPattern;
+    private static Pattern printPattern, printNamePattern, printVarPattern;
     private static Pattern plotPattern;
 
     // Constructor containing all regex expressions we need
@@ -24,7 +24,9 @@ public class Analyser {
         variablePattern = Pattern.compile("^[a-zA-Z]+=[a-zA-Z0-9.^\\/+\\-*]+");
         variableNamePattern = Pattern.compile("^[a-zA-Z]+");
         variableExpressionPattern = Pattern.compile("=[a-zA-Z0-9.^\\/+\\-*]+");
-        printPattern = Pattern.compile("^print\\([a-zA-Z]+,[a-zA-Z0-9]+\\)");
+        printPattern = Pattern.compile("^print\\([a-zA-Z]+,[a-zA-Z0-9\\+\\-\\*\\^]+\\)");
+        printNamePattern = Pattern.compile("\\([a-zA-Z]+");
+        printVarPattern = Pattern.compile(",[a-zA-Z0-9\\+\\-\\*\\^]+");
         plotPattern = Pattern.compile("^plot\\([a-zA-Z]+,[a-zA-Z0-9]+,[a-zA-Z0-9]+\\)");
     }
 
@@ -40,7 +42,7 @@ public class Analyser {
 
         Matcher functionMatcher, functionNameMatcher, functionVariableMatcher, functionExpressionMatcher;
         Matcher variableMatcher, variableNameMatcher, variableExpressionMatcher;
-        Matcher printMatcher;
+        Matcher printMatcher, printNameMatcher, printVarMatcher;
         Matcher plotMatcher;
 
         // Load the string to the matcher
@@ -54,11 +56,14 @@ public class Analyser {
         variableExpressionMatcher = variableExpressionPattern.matcher(rawString);
 
         printMatcher = printPattern.matcher(rawString);
+        printNameMatcher = printNamePattern.matcher(rawString);
+        printVarMatcher= printVarPattern.matcher(rawString);
         plotMatcher = plotPattern.matcher(rawString);
 
         // Reset content indicator
         this.isFunction = false;
         this.isVariable = false;
+        this.isPrint = false;
 
         // Test if the String is a function
         if(functionMatcher.find()) {
@@ -91,7 +96,16 @@ public class Analyser {
             else{ return "Wrong variable syntax" + "\n" + "Try with the following syntax :" + "\n" + "variableName=variableExpression" + "\n"; }
         }
 
-        else if(printMatcher.find()) { return printMatcher.group(); }
+        else if(printMatcher.find()) {
+
+            // Update content indicator
+            this.isPrint = true;
+
+            if(printNameMatcher.find() && printVarMatcher.find()){
+                return new PrintFct(printNameMatcher.group(), printVarMatcher.group());
+            }
+            else{ return "Wrong print syntax" + "\n" + "Try with the following syntax :" + "\n" + "print(functionName,value)" + "\n"; }
+        }
 
         else if(plotMatcher.find()) { return plotMatcher.group(); }
 
