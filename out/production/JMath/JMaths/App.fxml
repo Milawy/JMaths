@@ -91,7 +91,7 @@
             <TextArea fx:id="printArea" editable="false" layoutX="58.0" layoutY="204.0" prefHeight="142.0" prefWidth="800.0" />
             <LineChart fx:id="lineChart" layoutX="60.0" layoutY="355.0" prefHeight="350.0" prefWidth="800.0">
                 <xAxis>
-                    <NumberAxis autoRanging="false" lowerBound="0" side="BOTTOM" tickUnit="3" upperBound="42" />
+                    <NumberAxis autoRanging="true" lowerBound="0" side="BOTTOM" tickUnit="3" upperBound="42" />
                 </xAxis>
                 <yAxis>
                     <NumberAxis autoRanging="true" lowerBound="-21" side="LEFT" tickUnit="1" upperBound="21" />
