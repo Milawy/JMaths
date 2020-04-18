@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -85,6 +86,15 @@ public class Controller implements Initializable {
             //Converts Object to PrintFct
             PrintFct printLine = (PrintFct) objectTyped;
             printArea.appendText(printLine.solve(fctName, fctVar, fctExp, fctList, varName, varValue, varList) + "\n");
+        }
+
+        else if(analyser.isPlot){
+
+            //Converts Object to PlotFct
+            PlotFct plotLine = (PlotFct) objectTyped;
+            System.out.println("sd");
+            XYChart.Series<Double, Double> series = plotLine.getSerie(fctName, fctVar, fctExp, fctList, varName, varValue, varList);
+            lineChart.getData().add(series);
         }
 
         //TODO : Problem when returning a String, that is announcing an error in the typed text by the user.

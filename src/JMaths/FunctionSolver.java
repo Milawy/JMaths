@@ -130,10 +130,12 @@ public class FunctionSolver {
         // purge the '('
         var = purgeIt(var, "(");
 
-        // TODO : solve the var for getting a numerical value
+        ObservableList<String> nameList = FXCollections.observableArrayList();
+
         VariableSolver varSolver = new VariableSolver();
         varSolver.solveVariable(var, varNameCol, varValCol, tableView);
         var = varSolver.getResult();
+
 
         String val = new RawExpressionSolver().solve(var);
 
