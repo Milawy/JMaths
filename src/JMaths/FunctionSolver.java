@@ -17,14 +17,13 @@ public class FunctionSolver {
 
     // This bool will allow interlocked functions (example f(x)=g(x) and g(x)=h(x))
     public boolean isFinished;
+    public Integer trigoFctCounter = 0;
 
     public FunctionSolver(){
 
-        functionPattern = Pattern.compile("[a-zA-Z]+\\([a-zA-Z0-9.\\^\\/\\+\\-\\*]+\\)");
+        functionPattern = Pattern.compile("[a-zA-Z]+\\([a-zA-Z0-9\\.\\^\\/\\+\\-\\*]+\\)");
         functionNamePattern = Pattern.compile("^[a-zA-Z]+");
-        functionVariablePattern = Pattern.compile("\\([a-zA-Z0-9.\\^\\/\\+\\-\\*]+");
-
-        letterPattern = Pattern.compile("[a-zA-Z]");
+        functionVariablePattern = Pattern.compile("\\([a-zA-Z0-9\\.\\^\\/\\+\\-\\*]+");
 
         this.isFinished = false;
     }
@@ -87,9 +86,11 @@ public class FunctionSolver {
             nameFounded.add(functionMatcher.group());
         }
 
-        if(nameFounded.size() != 0){
+        if(nameFounded.size() != 0 && nameFounded.size() > this.trigoFctCounter){
             this.isFinished = false;
         }
+
+        this.trigoFctCounter = 0;
 
         nameFounded.forEach((elt) -> {
 
@@ -117,7 +118,6 @@ public class FunctionSolver {
                 }
                 else if(functionVariableMatcher.find() && !solveTrigoFunction(fctName, functionVariableMatcher.group(), elt, varNameCol, varValCol, varTableView)){ // if the function isn't declared it could be a trigo function
                     // TODO : cannot find this function and break the loop of solveFunctions
-                    this.isFinished = true;
                 }
 
             }
@@ -134,91 +134,66 @@ public class FunctionSolver {
         // purge the '('
         var = purgeIt(var, "(");
 
-        ObservableList<String> nameList = FXCollections.observableArrayList();
-
-        for (Variable item : tableView.getItems()) {
-            nameList.add(varNameCol.getCellObservableValue(item).getValue());
-        }
-
         VariableSolver varSolver = new VariableSolver();
         varSolver.solveVariable(var, varNameCol, varValCol, tableView);
         var = varSolver.getResult();
 
-        // test if there is still variable in var
-        Matcher letterMatcher = letterPattern.matcher(var);
+        // check if the var is numeric
+        boolean numeric = true;
+        String val = elt;
 
-        String val;
+        numeric = var.matches("([0-9\\.\\^\\/\\+\\-\\*])+");
+
+        if(numeric) {
+            val = new RawExpressionSolver().solve(var);
+        }
+        else{
+            this.trigoFctCounter++;
+        }
 
         switch(name) {
             case "cos":
-                if(letterMatcher.find()){
-                    System.out.println(letterMatcher.group());
-                    return false;
+                if(numeric){
+                    val = Double.toString(Math.cos(Double.parseDouble(val)));
                 }
-                val = new RawExpressionSolver().solve(var);
-                val = Double.toString(Math.cos(Double.parseDouble(val)));
                 break;
             case "sin":
-                if(letterMatcher.find()){
-                    System.out.println(letterMatcher.group());
-                    return false;
+                if(numeric) {
+                    val = Double.toString(Math.sin(Double.parseDouble(val)));
                 }
-                val = new RawExpressionSolver().solve(var);
-                val = Double.toString(Math.sin(Double.parseDouble(val)));
                 break;
             case "tan":
-                if(letterMatcher.find()){
-            System.out.println(letterMatcher.group());
-            return false;
-        }
-                val = new RawExpressionSolver().solve(var);
-                val = Double.toString(Math.tan(Double.parseDouble(val)));
+                if(numeric) {
+                    val = Double.toString(Math.tan(Double.parseDouble(val)));
+                }
                 break;
             case "arccos":
-                if(letterMatcher.find()){
-                    System.out.println(letterMatcher.group());
-                    return false;
+                if(numeric) {
+                    val = Double.toString(Math.acos(Double.parseDouble(val)));
                 }
-                val = new RawExpressionSolver().solve(var);
-                val = Double.toString(Math.acos(Double.parseDouble(val)));
                 break;
             case "arcsin":
-                if(letterMatcher.find()){
-                    System.out.println(letterMatcher.group());
-                    return false;
+                if(numeric) {
+                    val = Double.toString(Math.asin(Double.parseDouble(val)));
                 }
-                val = new RawExpressionSolver().solve(var);
-                val = Double.toString(Math.asin(Double.parseDouble(val)));
                 break;
             case "arctan":
-                if(letterMatcher.find()){
-                    System.out.println(letterMatcher.group());
-                    return false;
+                if(numeric) {
+                    val = Double.toString(Math.atan(Double.parseDouble(val)));
                 }
-                val = new RawExpressionSolver().solve(var);
-                val = Double.toString(Math.atan(Double.parseDouble(val)));
             case "exp":
-                if(letterMatcher.find()){
-                    System.out.println(letterMatcher.group());
-                    return false;
+                if(numeric) {
+                    val = Double.toString(Math.exp(Double.parseDouble(val)));
                 }
-                val = new RawExpressionSolver().solve(var);
-                val = Double.toString(Math.exp(Double.parseDouble(val)));
             case "log": // base 10
-                if(letterMatcher.find()){
-                    System.out.println(letterMatcher.group());
-                    return false;
+                if(numeric) {
+                    val = Double.toString(Math.log10(Double.parseDouble(val)));
                 }
-                val = new RawExpressionSolver().solve(var);
-                val = Double.toString(Math.log10(Double.parseDouble(val)));
                 break;
             case "ln": // base 2
-                if(letterMatcher.find()){
-                    System.out.println(letterMatcher.group());
-                    return false;
+                if(numeric) {
+                    val = Double.toString(Math.log(Double.parseDouble(val)));
                 }
-                val = new RawExpressionSolver().solve(var);
-                val = Double.toString(Math.log(Double.parseDouble(val)));
                 break;
             default:
                 return false;

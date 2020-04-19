@@ -55,9 +55,6 @@ public class Controller implements Initializable {
             //Converts Object to Function
             Function fctTyped = (Function) objectTyped;
 
-            fctSolver.solveFunctions(fctTyped.getExpression(), fctName, fctVar, fctExp, fctList, varName, varValue, varList);
-            varSolver.solveVariable(fctSolver.getResult(), varName, varValue, varList);
-
             //Adding the function, its variable and its expression typed by the user in the TableView
             fctName.setCellValueFactory(new PropertyValueFactory<>("name"));
             fctVar.setCellValueFactory(new PropertyValueFactory<>("variable"));

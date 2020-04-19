@@ -24,9 +24,11 @@ public class Analyser {
         variablePattern = Pattern.compile("^[a-zA-Z]+=[a-zA-Z0-9.^\\/+\\-*]+");
         variableNamePattern = Pattern.compile("^[a-zA-Z]+");
         variableExpressionPattern = Pattern.compile("=[a-zA-Z0-9.^\\/+\\-*]+");
+
         printPattern = Pattern.compile("^print\\([a-zA-Z]+,[a-zA-Z0-9\\+\\-\\*\\^]+\\)");
         printNamePattern = Pattern.compile("\\([a-zA-Z]+");
         printVarPattern = Pattern.compile(",[a-zA-Z0-9\\+\\-\\*\\^]+");
+
         plotPattern = Pattern.compile("^plot\\([a-zA-Z]+,[0-9\\-]+,[0-9\\-]+,[0-9]+\\)");
         plotNamePattern = Pattern.compile("\\([a-zA-Z]+");
         plotLowBoundPattern = Pattern.compile(",[0-9\\-]+");

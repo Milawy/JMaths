@@ -42,40 +42,21 @@ public class PlotFct {
         FunctionSolver fctSolver = new FunctionSolver();
         VariableSolver varSolver = new VariableSolver();
 
-        //get data from the function table view
-        ObservableList<String> nameList = FXCollections.observableArrayList();
-        ObservableList<String> variableList = FXCollections.observableArrayList();
-        ObservableList<String> expressionList = FXCollections.observableArrayList();
-
-        for (Function item : tableView.getItems()) {
-            nameList.add(fctNameCol.getCellObservableValue(item).getValue());
-        }
-        for (Function item : tableView.getItems()) {
-            variableList.add(fctVarCol.getCellObservableValue(item).getValue());
-        }
-        for (Function item : tableView.getItems()) {
-            expressionList.add(fctExpCol.getCellObservableValue(item).getValue());
-        }
-
-        Integer fctId = find(nameList, this.functionName);
-        String fctExpression = expressionList.get(fctId);
-        String varName = variableList.get(fctId);
-
         this.functionName = purgeIt(this.functionName, "(");
 
-        // reduce the expression
-        fctSolver.solveFunctions(fctExpression, fctNameCol, fctVarCol, fctExpCol, tableView, varNameCol, varValCol, varTableView);
-        fctExpression = fctSolver.getResult();
-        varSolver.solveVariable(fctExpression, varNameCol, varValCol, varTableView);
-        fctExpression = varSolver.getResult();
-        String newFctExpression = fctExpression;
+        PrintFct solver;
+        String res;
 
         for (double x = lowerBound; x <= higherBound; x = x + (higherBound-lowerBound)/n) {
 
-            // replace the value of var into the function expression
-            newFctExpression = fctExpression.replaceAll(varName, Double.toString(x));
-            //then get numerical value
-            series.getData().add(new XYChart.Data<Double, Double>(x,  Double.parseDouble(new RawExpressionSolver().solve(newFctExpression))));
+            // TODO : Add parenthesis before the ^ sign to get the - into the power
+
+            solver = new PrintFct(this.functionName, Double.toString(x));
+            res = solver.solve(fctNameCol, fctVarCol, fctExpCol, tableView, varNameCol, varValCol, varTableView);
+            System.out.println(x + " : " + res);
+            series.getData().add(new XYChart.Data<Double, Double>(x,  Double.parseDouble(res)));
+
+
         }
 
         return series;

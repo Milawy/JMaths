@@ -77,6 +77,14 @@ public class PrintFct {
         // replace the value of var into the function expression
         fctExpression = fctExpression.replaceAll(varName, this.var);
 
+        // solve declared variables
+        varSolver.solveVariable(fctExpression ,varNameCol, varValCol, varTableView);
+        fctExpression = varSolver.getResult();
+
+        // use again trigo solver to get numerical value of trigo fct
+        fctSolver.solveFunctions(fctExpression, fctNameCol, fctVarCol, fctExpCol, tableView, varNameCol, varValCol, varTableView);
+        fctExpression = fctSolver.getResult();
+
         // then get the numerical value
         return new RawExpressionSolver().solve(fctExpression);
     }
