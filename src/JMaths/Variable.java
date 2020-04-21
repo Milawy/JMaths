@@ -3,9 +3,9 @@ package JMaths;
 public class Variable {
 
     protected String name;
-    protected Double value;
+    protected String value;
 
-    public Variable(String name, double value){
+    public Variable(String name, String value){
         this.name = name;
         this.value = value;
     }
@@ -13,7 +13,7 @@ public class Variable {
     public String getName() {
         return name;
     }
-    public double getValue() { return value; }
+    public String getValue() { return value; }
     public void setName(String name) { this.name = name; }
-    public void setValue(double value) { this.value = value; }
+    public void setValue(String value) { this.value = value; }
 }
