@@ -65,7 +65,7 @@
                     <Font size="42.0" />
                 </font>
             </Text>
-            <Text layoutX="1042.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Function list">
+            <Text layoutX="1042.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Function list">
                 <font>
                      <Font size="18.0" />
                 </font>
@@ -76,20 +76,35 @@
                 </font>
             </Text>
             <TextField fx:id="commandLine" layoutX="58.0" layoutY="122.0" prefHeight="42.0" prefWidth="800.0" promptText="Function, Variable or Command" />
-            <TableView fx:id="fctList" layoutX="921.0" layoutY="102.0" prefHeight="280.0" prefWidth="333.0" />
+            <TableView fx:id="fctList" layoutX="921.0" layoutY="82.0" prefHeight="280.0" prefWidth="333.0" />
             <TableView fx:id="varList" layoutX="921.0" layoutY="422.0" prefHeight="280.0" prefWidth="333.0" />
             <Button fx:id="sendBtn" layoutX="58.0" layoutY="172.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="84.0" text="Send">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="clearBtn" layoutX="774.0" layoutY="172.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="84.0" text="Clear">
+            <Button fx:id="clearPromptBtn" layoutX="774.0" layoutY="172.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="84.0" text="Clear">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
              </Button>
+              <Button fx:id="clearFctBtn" layoutX="1170.0" layoutY="366.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="84.0" text="Clear">
+                  <cursor>
+                      <Cursor fx:constant="HAND" />
+                  </cursor>
+              </Button>
+              <Button fx:id="clearVarBtn" layoutX="1170.0" layoutY="705.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="84.0" text="Clear">
+                  <cursor>
+                      <Cursor fx:constant="HAND" />
+                  </cursor>
+              </Button>
+              <Button fx:id="clearPlotBtn" layoutX="774.0" layoutY="705.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="84.0" text="Clear">
+                  <cursor>
+                      <Cursor fx:constant="HAND" />
+                  </cursor>
+              </Button>
             <TextArea fx:id="printArea" editable="false" layoutX="58.0" layoutY="204.0" prefHeight="142.0" prefWidth="800.0" />
-            <LineChart fx:id="lineChart" layoutX="60.0" layoutY="355.0" prefHeight="350.0" prefWidth="800.0">
+            <LineChart fx:id="lineChart" createSymbols="false" layoutX="60.0" layoutY="355.0" prefHeight="350.0" prefWidth="800.0">
                 <xAxis>
                     <NumberAxis autoRanging="true" lowerBound="0" side="BOTTOM" tickUnit="3" upperBound="42" />
                 </xAxis>

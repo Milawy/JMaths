@@ -9,7 +9,7 @@ public class TrigoSolver {
 
     protected String solve(String name, String var, TableColumn<Variable, String> varNameCol, TableColumn<Variable, String> varValCol){
 
-        //first find the numerical value of the var string (if it's already a number the variableSolver it will not change)
+        //first find the numerical value of the var string (if it's already a number the variableSolver will not change)
         //this.varSolver = new VariableSolver(String var, TableColumn<Variable, String> varNameCol, TableColumn<Variable, String> varValCol);
 
         // TODO : cast the result of the varSolver to double and call trigo function

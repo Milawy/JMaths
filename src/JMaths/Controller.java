@@ -21,13 +21,13 @@ public class Controller implements Initializable {
     @FXML
     public TableView<Variable> varList;
     @FXML
-    public Button sendBtn, clearBtn;
+    public Button sendBtn, clearPromptBtn, clearFctBtn, clearVarBtn, clearPlotBtn;
     @FXML
     public TextArea printArea;
     @FXML
     public LineChart lineChart;
 
-    //Define Analyser/Solver classes + all TableColumns we need
+    // Define Analyser/Solver classes + all TableColumns we need
     Analyser analyser = new Analyser();
     FunctionSolver fctSolver = new FunctionSolver();
     VariableSolver varSolver = new VariableSolver();
@@ -42,7 +42,7 @@ public class Controller implements Initializable {
     ObservableList<String> historyList = FXCollections.observableArrayList();
     Integer historyId = -1;
 
-    //The one that is creating the Table rows
+    // The one that is creating the Table rows
     private void manageTab(){
 
         historyId = -1;
@@ -101,6 +101,20 @@ public class Controller implements Initializable {
         commandLine.clear();
     }
 
+    private void climbUpHistory(){
+        if(historyId+1 < historyList.size()){
+            historyId++;
+            commandLine.setText(historyList.get(historyId));
+        }
+    }
+
+    private void climbDownHistory(){
+        if(historyId > 0){
+            historyId--;
+            commandLine.setText(historyList.get(historyId));
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -121,22 +135,10 @@ public class Controller implements Initializable {
         // When pressing send button
         sendBtn.setOnAction(actionEvent -> manageTab());
 
-        // When pressing clear button
-        clearBtn.setOnAction(actionEvent -> printArea.setText(""));
-    }
-
-    private void climbUpHistory(){
-        if(historyId+1 < historyList.size()){
-            historyId++;
-            commandLine.setText(historyList.get(historyId));
-        }
-
-    }
-
-    private void climbDownHistory(){
-        if(historyId > 0){
-            historyId--;
-            commandLine.setText(historyList.get(historyId));
-        }
+        // All clear buttons
+        clearPromptBtn.setOnAction(actionEvent -> printArea.setText(""));
+        clearFctBtn.setOnAction(actionEvent -> fctList.getItems().clear());
+        clearVarBtn.setOnAction(actionEvent -> varList.getItems().clear());
+        clearPlotBtn.setOnAction(actionEvent -> lineChart.getData().clear());
     }
 }
