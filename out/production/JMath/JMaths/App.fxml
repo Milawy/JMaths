@@ -115,7 +115,7 @@
                     <Cursor fx:constant="CROSSHAIR" />
                 </cursor>
             </LineChart>
-            <Label layoutX="488.0" layoutY="735.0" prefHeight="17.0" prefWidth="162.0" text="Version Dabbed, Release 42 ™" />
+            <Label fx:id="copyright" layoutX="488.0" layoutY="735.0" prefHeight="17.0" prefWidth="162.0" text="Version Dabbed, Release 42 ™" />
       </children>
     </AnchorPane>
   </children>

@@ -8,6 +8,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -35,7 +36,7 @@ public class Controller implements Initializable {
     @FXML
     public Text appName, fctListName, varListName;
     @FXML
-    public VBox vBox;
+    public Label copyright;
 
 
     // Define Analyser/Solver classes + all TableColumns we need
@@ -100,7 +101,6 @@ public class Controller implements Initializable {
 
             //Converts Object to PlotFct
             PlotFct plotLine = (PlotFct) objectTyped;
-            System.out.println("sd");
             XYChart.Series<Double, Double> series = plotLine.getSerie(fctName, fctVar, fctExp, fctList, varName, varValue, varList);
             lineChart.getData().add(series);
         }
@@ -139,6 +139,8 @@ public class Controller implements Initializable {
         // Flex position
         appName.setLayoutX(w*(58.0/1300.0));
         appName.setLayoutY(h*(55.0/800.0));
+        copyright.setLayoutX(w*(488.0/1300.0));
+        copyright.setLayoutY(h*(700.0/800.0));
 
         fctListName.setLayoutX(w*(1042.0/1300.0));
         fctListName.setLayoutY(h*(55.0/800.0));

@@ -70,7 +70,7 @@ public class VariableSolver {
             }
         });
 
-        System.out.println(this.result);
+        //System.out.println(this.result);
         return this.isFinished;
     }
 
