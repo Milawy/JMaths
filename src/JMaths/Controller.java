@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -37,6 +38,8 @@ public class Controller implements Initializable {
     public Text appName, fctListName, varListName;
     @FXML
     public Label copyright;
+    @FXML
+    public NumberAxis xAxis;
 
 
     // Define Analyser/Solver classes + all TableColumns we need
@@ -101,7 +104,7 @@ public class Controller implements Initializable {
 
             //Converts Object to PlotFct
             PlotFct plotLine = (PlotFct) objectTyped;
-            XYChart.Series<Double, Double> series = plotLine.getSerie(fctName, fctVar, fctExp, fctList, varName, varValue, varList);
+            XYChart.Series<Double, Double> series = plotLine.getSerie(fctName, fctVar, fctExp, fctList, varName, varValue, varList, xAxis);
             lineChart.getData().add(series);
         }
 

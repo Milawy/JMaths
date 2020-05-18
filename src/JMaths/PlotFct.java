@@ -2,6 +2,9 @@ package JMaths;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.Axis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -37,9 +40,12 @@ public class PlotFct {
     }
 
     // This method will return the list of points of the expression
-    public XYChart.Series<Double, Double> getSerie(TableColumn<Function, String> fctNameCol, TableColumn<Function, String> fctVarCol, TableColumn<Function, String> fctExpCol, TableView<Function> tableView, TableColumn<Variable, String> varNameCol, TableColumn<Variable, String> varValCol, TableView<Variable> varTableView){
+    public XYChart.Series<Double, Double> getSerie(TableColumn<Function, String> fctNameCol, TableColumn<Function, String> fctVarCol, TableColumn<Function, String> fctExpCol, TableView<Function> tableView, TableColumn<Variable, String> varNameCol, TableColumn<Variable, String> varValCol, TableView<Variable> varTableView, NumberAxis xAxis){
 
         XYChart.Series<Double, Double> series = new XYChart.Series<Double, Double>();
+
+        xAxis.setLowerBound(lowerBound);
+        xAxis.setUpperBound(higherBound);
 
         FunctionSolver fctSolver = new FunctionSolver();
         VariableSolver varSolver = new VariableSolver();
