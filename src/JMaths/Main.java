@@ -44,6 +44,8 @@ public class Main extends Application {
         stage = new Stage();
         stage.initStyle(StageStyle.TRANSPARENT);
         scene = new Scene(root, width, height);
+        String styleSheet = getClass().getResource("Styles.css").toExternalForm();
+        scene.getStylesheets().add(styleSheet);
 
         // Moving
         scene.setOnMousePressed(m -> {

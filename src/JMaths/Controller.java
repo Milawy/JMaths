@@ -161,9 +161,9 @@ public class Controller implements Initializable {
         commandLine.setLayoutX(w*(58.0/1300.0));
         commandLine.setLayoutY(h*(107.0/800.0));
         sendBtn.setLayoutX(w*(58.0/1300.0));
-        sendBtn.setLayoutY(h*(157.0/800.0));
-        clearPromptBtn.setLayoutX(w*(744.0/1300.0));
-        clearPromptBtn.setLayoutY(h*(157.0/800.0));
+        sendBtn.setLayoutY(h*(150.0/800.0));
+        clearPromptBtn.setLayoutX(w*(765.0/1300.0));
+        clearPromptBtn.setLayoutY(h*(150.0/800.0));
         clearPlotBtn.setLayoutX(w*(744.0/1300.0));
         clearPlotBtn.setLayoutY(h*(690.0/800.0));
         printArea.setLayoutX(w*(58.0/1300.0));
