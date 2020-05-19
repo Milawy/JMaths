@@ -66,7 +66,7 @@ public class PlotFct {
 
             solver = new PrintFct(this.functionName, Double.toString(x));
             res = solver.solve(fctNameCol, fctVarCol, fctExpCol, tableView, varNameCol, varValCol, varTableView);
-            System.out.println(x + " : " + res);
+            System.out.println(x + " : " + Double.parseDouble(res));
             series.getData().add(new XYChart.Data<Double, Double>(x,  Double.parseDouble(res)));
         }
 

@@ -181,10 +181,13 @@ public class FunctionSolver {
                 if(numeric) {
                     val = Double.toString(Math.atan(Double.parseDouble(val)));
                 }
-            case "exp":
+                break;
+            case "e":
                 if(numeric) {
                     val = Double.toString(Math.exp(Double.parseDouble(val)));
+                    System.out.println("cc");
                 }
+                break;
             case "log": // base 10
                 if(numeric) {
                     val = Double.toString(Math.log10(Double.parseDouble(val)));
@@ -199,7 +202,7 @@ public class FunctionSolver {
                 return false;
         }
 
-        this.result = result.replaceFirst(elt, val);
+        this.result = this.result.replaceFirst(elt, val);
         return true;
     }
 }
