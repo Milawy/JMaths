@@ -35,9 +35,7 @@ public class Controller implements Initializable {
     @FXML
     public LineChart lineChart;
     @FXML
-    public Text appName, fctListName, varListName;
-    @FXML
-    public Label copyright;
+    public Label copyright, commandText, fctListName, varListName;
     @FXML
     public NumberAxis xAxis;
 
@@ -140,59 +138,68 @@ public class Controller implements Initializable {
         //h = 800;
 
         // Flex position
-        appName.setLayoutX(w*(58.0/1300.0));
-        appName.setLayoutY(h*(55.0/800.0));
+        commandText.setLayoutX(w*(242.0/1920.0));
+        commandText.setLayoutY(h*(195.0/1080.0));
+        fctListName.setLayoutX(w*(1350.0/1920.0));
+        fctListName.setLayoutY(h*(160.0/1080.0));
+        varListName.setLayoutX(w*(1350.0/1920.0));
+        varListName.setLayoutY(h*(535.0/1080.0));
         copyright.setLayoutX(w*(488.0/1300.0));
         copyright.setLayoutY(h*(700.0/800.0));
 
-        fctListName.setLayoutX(w*(1042.0/1300.0));
-        fctListName.setLayoutY(h*(55.0/800.0));
-        varListName.setLayoutX(w*(1042.0/1300.0));
-        varListName.setLayoutY(h*(395.0/800.0));
-        fctList.setLayoutX(w*(921.0/1300.0));
-        fctList.setLayoutY(h*(67.0/800.0));
-        varList.setLayoutX(w*(921.0/1300.0));
-        varList.setLayoutY(h*(407.0/800.0));
-        clearFctBtn.setLayoutX(w*(1170.0/1300.0));
-        clearFctBtn.setLayoutY(h*(356.0/800.0));
-        clearVarBtn.setLayoutX(w*(1170.0/1300.0));
-        clearVarBtn.setLayoutY(h*(690.0/800.0));
+        fctList.setLayoutX(w*(1350.0/1920.0));
+        fctList.setLayoutY(h*(243.0/1080.0));
+        varList.setLayoutX(w*(1350.0/1920.0));
+        varList.setLayoutY(h*(625.0/1080.0));
+        clearFctBtn.setLayoutX(w*(1712.0/1920.0));
+        clearFctBtn.setLayoutY(h*(181.0/1080.0));
+        clearVarBtn.setLayoutX(w*(1712.0/1920.0));
+        clearVarBtn.setLayoutY(h*(565.0/1080.0));
 
-        commandLine.setLayoutX(w*(58.0/1300.0));
-        commandLine.setLayoutY(h*(107.0/800.0));
-        sendBtn.setLayoutX(w*(58.0/1300.0));
-        sendBtn.setLayoutY(h*(150.0/800.0));
-        clearPromptBtn.setLayoutX(w*(765.0/1300.0));
-        clearPromptBtn.setLayoutY(h*(150.0/800.0));
-        clearPlotBtn.setLayoutX(w*(744.0/1300.0));
-        clearPlotBtn.setLayoutY(h*(690.0/800.0));
-        printArea.setLayoutX(w*(58.0/1300.0));
-        printArea.setLayoutY(h*(189.0/800.0));
-        lineChart.setLayoutX(w*(60.0/1300.0));
-        lineChart.setLayoutY(h*(340.0/800.0));
+        commandLine.setLayoutX(w*(350/1920.0));
+        commandLine.setLayoutY(h*(70/1080.0));
+        sendBtn.setLayoutX(w*(1460.0/1920.0));
+        sendBtn.setLayoutY(h*(70.0/1080.0));
+        clearPromptBtn.setLayoutX(w*(1212/1920.0));
+        clearPromptBtn.setLayoutY(h*(190.0/1080.0));
+        clearPlotBtn.setLayoutX(w*(1212.0/1920.0));
+        clearPlotBtn.setLayoutY(h*(410.0/1080.0));
+        printArea.setLayoutX(w*(241.0/1920.0));
+        printArea.setLayoutY(h*(243.0/1080.0));
+        lineChart.setLayoutX(w*(225.0/1920.0));
+        lineChart.setLayoutY(h*(450.0/1080.0));
 
         // Flex size
-        commandLine.setPrefWidth(w*(800.0/1300.0));
-        commandLine.setPrefHeight(h*(42.0/800.0));
-        fctList.setPrefWidth(w*(333.0/1300.0));
-        fctList.setPrefHeight(h*(280.0/800.0));
-        varList.setPrefWidth(w*(333.0/1300.0));
-        varList.setPrefHeight(h*(280.0/800.0));
-        printArea.setPrefWidth(w*(800.0/1300.0));
-        printArea.setPrefHeight(h*(142.0/800.0));
-        lineChart.setPrefWidth(w*(800.0/1300.0));
-        lineChart.setPrefHeight(h*(350.0/800.0));
+        commandText.setPrefWidth(w*(96.0/1920.0));
+        commandText.setPrefHeight(h*(50.0/1080.0));
+        fctListName.setPrefWidth(w*(500.0/1920.0));
+        fctListName.setPrefHeight(h*(100.0/1080.0));
+        varListName.setPrefWidth(w*(500.0/1920.0));
+        varListName.setPrefHeight(h*(100.0/1080.0));
+        copyright.setPrefWidth(w*(250.0/1920.0));
+        copyright.setPrefHeight(h*(50.0/1080.0));
 
-        clearFctBtn.setPrefWidth(w*(84.0/1300.0));
-        clearFctBtn.setPrefHeight(h*(21.0/800.0));
-        clearVarBtn.setPrefWidth(w*(84.0/1300.0));
-        clearVarBtn.setPrefHeight(h*(21.0/800.0));
-        clearVarBtn.setPrefWidth(w*(84.0/1300.0));
-        clearVarBtn.setPrefHeight(h*(21.0/800.0));
-        clearPromptBtn.setPrefWidth(w*(84.0/1300.0));
-        clearPromptBtn.setPrefHeight(h*(21.0/800.0));
-        sendBtn.setPrefWidth(w*(84.0/1300.0));
-        sendBtn.setPrefHeight(h*(21.0/800.0));
+        commandLine.setPrefWidth(w*(1100/1920.0));
+        commandLine.setPrefHeight(h*(50.0/1080.0));
+        fctList.setPrefWidth(w*(475.0/1920.0));
+        fctList.setPrefHeight(h*(300.0/1080.0));
+        varList.setPrefWidth(w*(475.0/1920.0));
+        varList.setPrefHeight(h*(300.0/1080.0));
+        printArea.setPrefWidth(w*(1080.0/1920.0));
+        printArea.setPrefHeight(h*(150.0/1080.0));
+        lineChart.setPrefWidth(w*(1100.0/1900.0));
+        lineChart.setPrefHeight(h*(470.0/1080.0));
+
+        clearFctBtn.setPrefWidth(w*(110.0/1920.0));
+        clearFctBtn.setPrefHeight(h*(40.0/1080.0));
+        clearVarBtn.setPrefWidth(w*(110.0/1920.0));
+        clearVarBtn.setPrefHeight(h*(40.0/1080.0));
+        clearPlotBtn.setPrefWidth(w*(110.0/1920.0));
+        clearPlotBtn.setPrefHeight(h*(40.0/1080.0));
+        clearPromptBtn.setPrefWidth(w*(110.0/1920.0));
+        clearPromptBtn.setPrefHeight(h*(40.0/1080.0));
+        sendBtn.setPrefWidth(w*(127.0/1920.0));
+        sendBtn.setPrefHeight(h*(50.0/1080.0));
     }
 
     @Override

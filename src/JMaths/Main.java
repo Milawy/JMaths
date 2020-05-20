@@ -36,7 +36,6 @@ public class Main extends Application {
         //height = 800;
 
         Parent root = FXMLLoader.load(getClass().getResource("App.fxml"));
-        root.setStyle("-fx-background-color:rgb(231,216,201);");
 
         primaryStage.setTitle("This window is not allowed in your country");
         primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("LUL.png")));
@@ -44,6 +43,7 @@ public class Main extends Application {
         stage = new Stage();
         stage.initStyle(StageStyle.TRANSPARENT);
         scene = new Scene(root, width, height);
+        //String styleSheet = getClass().getResource("Bootstrap3.css").toExternalForm();
         String styleSheet = getClass().getResource("Styles.css").toExternalForm();
         scene.getStylesheets().add(styleSheet);
 
