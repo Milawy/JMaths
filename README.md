@@ -83,19 +83,19 @@ To evaluate an expression we are using 3 layers of solvers:
 
 Inverse function :
 
-![visual2](/home/victor/Documents/CIR3/java/JMaths/visual2.png)
+![visual2](visual2.png)
 
 
 
 Square function : 
 
-![visual3](/home/victor/Documents/CIR3/java/JMaths/visual3.png)
+![visual3](visual3.png)
 
 
 
 Two sinus functions, the yellow one has a phase difference of pi :
 
-![visual4](/home/victor/Documents/CIR3/java/JMaths/visual4.png)
+![visual4](visual4.png)
 
 
 
