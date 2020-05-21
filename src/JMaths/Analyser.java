@@ -16,24 +16,24 @@ public class Analyser {
     // Constructor containing all regex expressions we need
     public Analyser(){
 
-        functionPattern = Pattern.compile("^[a-zA-Z]+\\([a-zA-Z]+\\)=[a-zA-Z0-9\\(\\).^\\/+\\-*]+");
-        functionNamePattern = Pattern.compile("^[a-zA-Z]+");
-        functionVariablePattern = Pattern.compile("\\([a-zA-Z]+");
-        functionExpressionPattern = Pattern.compile("=[a-zA-Z0-9.^\\(\\)\\/+\\-*]+");
+        functionPattern = Pattern.compile("^[a-zA-Z ]+\\([a-zA-Z ]+\\)[ ]*=[a-zA-Z0-9\\(\\).^\\/+\\-* ]+");
+        functionNamePattern = Pattern.compile("^[a-zA-Z ]+");
+        functionVariablePattern = Pattern.compile("\\([a-zA-Z ]+");
+        functionExpressionPattern = Pattern.compile("=[a-zA-Z0-9.^\\(\\)\\/+\\-* ]+");
 
-        variablePattern = Pattern.compile("^[a-zA-Z]+=[a-zA-Z0-9.^\\/+\\-*]+");
-        variableNamePattern = Pattern.compile("^[a-zA-Z]+");
-        variableExpressionPattern = Pattern.compile("=[a-zA-Z0-9.^\\/+\\-*]+");
+        variablePattern = Pattern.compile("^[a-zA-Z ]+[ ]*=[a-zA-Z0-9.^\\/+\\-* ]+");
+        variableNamePattern = Pattern.compile("^[a-zA-Z ]+");
+        variableExpressionPattern = Pattern.compile("=[a-zA-Z0-9.^\\/+\\-* ]+");
 
-        printPattern = Pattern.compile("^print\\([a-zA-Z]+,[a-zA-Z0-9\\+\\-\\*\\^]+\\)");
-        printNamePattern = Pattern.compile("\\([a-zA-Z]+");
-        printVarPattern = Pattern.compile(",[a-zA-Z0-9\\+\\-\\*\\^]+");
+        printPattern = Pattern.compile("^print[ ]*\\([a-zA-Z ]+,[a-zA-Z0-9\\+\\-\\*\\^ ]+\\)");
+        printNamePattern = Pattern.compile("\\([a-zA-Z ]+");
+        printVarPattern = Pattern.compile(",[a-zA-Z0-9\\+\\-\\*\\^ ]+");
 
-        plotPattern = Pattern.compile("^plot\\([a-zA-Z]+,[0-9\\-]+,[0-9\\-]+,[0-9]+\\)");
-        plotNamePattern = Pattern.compile("\\([a-zA-Z]+");
-        plotLowBoundPattern = Pattern.compile(",[0-9\\-]+");
-        plotUpBoundPattern = Pattern.compile(",[0-9\\-]+");
-        plotNPattern = Pattern.compile(",[0-9\\-]+\\)");
+        plotPattern = Pattern.compile("^plot[ ]*\\([a-zA-Z ]+[ ]*,[0-9\\- ]+[ ]*,[0-9\\- ]+[ ]*,[0-9 ]+\\)");
+        plotNamePattern = Pattern.compile("\\([a-zA-Z ]+");
+        plotLowBoundPattern = Pattern.compile(",[0-9\\- ]+");
+        plotUpBoundPattern = Pattern.compile(",[0-9\\- ]+");
+        plotNPattern = Pattern.compile(",[0-9\\- ]+\\)");
     }
 
     // Purge useless char in String
@@ -79,15 +79,17 @@ public class Analyser {
         // Test if the String is a function
         if(functionMatcher.find()) {
 
+            // Update content indicator
+            this.isFunction = true;
+
             if(functionNameMatcher.find() && functionVariableMatcher.find() && functionExpressionMatcher.find()){
 
-                // Update content indicator
-                this.isFunction = true;
+                String purgedFctName = purgeIt(functionNameMatcher.group()," ");
+                String purgedFctVariable = purgeIt(functionVariableMatcher.group()," ");
+                String purgedFctExpression = purgeIt(functionExpressionMatcher.group()," ");
 
                 //return function because we know that the user wrote a function
-                return new Function(functionNameMatcher.group(),
-                        purgeIt(functionVariableMatcher.group(), "("),
-                        purgeIt(functionExpressionMatcher.group(), "="));
+                return new Function(purgedFctName, purgeIt(purgedFctVariable, "("), purgeIt(purgedFctExpression, "="));
             }
 
             else{ return "Wrong function syntax" + "\n" + "Try with the following syntax :" + "\n" + "functionName(variableName)=functionExpression" + "\n"; }
@@ -95,13 +97,16 @@ public class Analyser {
 
         else if(variableMatcher.find()) {
 
+            // Update content indicator
+            this.isVariable = true;
+
             if(variableNameMatcher.find() && variableExpressionMatcher.find()) {
 
-                // Update content indicator
-                this.isVariable = true;
+                String purgedVarName = purgeIt(variableNameMatcher.group()," ");
+                String purgedVarValue = purgeIt(variableExpressionMatcher.group()," ");
 
                 //return variable because we know that the user wrote a variable
-                return new Variable(variableNameMatcher.group(), purgeIt(variableExpressionMatcher.group(), "="));
+                return new Variable(purgedVarName, purgeIt(purgedVarValue, "="));
             }
 
             else{ return "Wrong variable syntax" + "\n" + "Try with the following syntax :" + "\n" + "variableName=variableExpression" + "\n"; }
@@ -113,8 +118,13 @@ public class Analyser {
             this.isPrint = true;
 
             if(printNameMatcher.find() && printVarMatcher.find()){
-                return new PrintFct(printNameMatcher.group(), printVarMatcher.group());
+
+                String purgedPrintName = purgeIt(printNameMatcher.group()," ");
+                String purgedPrintVar = purgeIt(printVarMatcher.group()," ");
+
+                return new PrintFct(purgedPrintName, purgedPrintVar);
             }
+
             else{ return "Wrong print syntax" + "\n" + "Try with the following syntax :" + "\n" + "print(functionName,value)" + "\n"; }
         }
 
@@ -125,10 +135,16 @@ public class Analyser {
 
             if(plotNameMatcher.find() && plotBoundMatcher.find() && plotNMatcher.find()){
                 String low = plotBoundMatcher.group();
-                plotBoundMatcher.find();
                 String high = plotBoundMatcher.group();
-                return new PlotFct(plotNameMatcher.group(), low, high, plotNMatcher.group());
+
+                String purgedPlotName = purgeIt(plotNameMatcher.group()," ");
+                String purgedPlotLow = purgeIt(low," ");
+                String purgedPlotHigh = purgeIt(high," ");
+                String purgedPlotN = purgeIt(plotNMatcher.group()," ");
+
+                return new PlotFct(purgedPlotName, purgedPlotLow, purgedPlotHigh, purgedPlotN);
             }
+
             else{ return "Wrong plot syntax" + "\n" + "Try with the following syntax :" + "\n" + "plot(functionName,lowerBound,upperBound,numberOfPoints)" + "\n"; }
         }
 
