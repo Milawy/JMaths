@@ -18,8 +18,6 @@ public class PlotFct {
 
     public PlotFct(String functionName, String lowerBound, String higherBound, String n){
 
-        // TODO : variable and . in argument (boudary) exemple in print arguments
-
         functionName = functionName.replaceAll("\\(", "\\\\(");
         functionName = purgeIt(functionName, "\\(");
         lowerBound = lowerBound.replaceAll("\\-", "\\\\-");
@@ -57,19 +55,18 @@ public class PlotFct {
 
         for (double x = lowerBound; x <= higherBound; x = x + (higherBound-lowerBound)/n) {
 
-            // TODO : Add parenthesis before the ^ sign to get the - into the power
-
             // to avoid divergence error set x to 0 if he's close enough to 0
-            if(x <= 0.00000001 && x >= -0.00000001){
+            if(x <= 0.0001 && x >= -0.0001){
                 x = 0;
             }
 
             solver = new PrintFct(this.functionName, Double.toString(x));
             res = solver.solve(fctNameCol, fctVarCol, fctExpCol, tableView, varNameCol, varValCol, varTableView);
-            System.out.println(x + " : " + Double.parseDouble(res));
             series.getData().add(new XYChart.Data<Double, Double>(x,  Double.parseDouble(res)));
-        }
 
+            System.out.println(x + " : " + Double.parseDouble(res));
+
+        }
         return series;
     }
 

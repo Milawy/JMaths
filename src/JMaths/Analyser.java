@@ -135,6 +135,7 @@ public class Analyser {
 
             if(plotNameMatcher.find() && plotBoundMatcher.find() && plotNMatcher.find()){
                 String low = plotBoundMatcher.group();
+                plotBoundMatcher.find();
                 String high = plotBoundMatcher.group();
 
                 String purgedPlotName = purgeIt(plotNameMatcher.group()," ");

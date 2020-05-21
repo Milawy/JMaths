@@ -2,8 +2,10 @@ package JMaths;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 
 public class PrintFct {
 
@@ -22,6 +24,9 @@ public class PrintFct {
     public String getVar() { return var; }
     public void setFunctionName(String functionName) { this.functionName = functionName; }
     public void setVar(String var) { this.var = var; }
+
+    @FXML
+    public TextArea printArea;
 
     private Integer find(ObservableList<String> list, String val) {
         for (int i = 0; i < list.size(); i++){
@@ -86,6 +91,13 @@ public class PrintFct {
         fctExpression = fctSolver.getResult();
 
         // then get the numerical value
-        return new RawExpressionSolver().solve(fctExpression);
+        try {
+            return new RawExpressionSolver().solve(fctExpression);
+        }
+        catch(ArithmeticException e){
+            System.out.println("Division by zero");
+
+        }
+        return "0";
     }
 }

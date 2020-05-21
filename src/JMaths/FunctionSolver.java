@@ -21,7 +21,7 @@ public class FunctionSolver {
 
     public FunctionSolver(){
 
-        functionPattern = Pattern.compile("[a-zA-Z]+\\([a-zA-Z0-9\\.\\^\\/\\+\\-\\*]+\\)");
+        functionPattern = Pattern.compile("[a-zA-Z]+\\([a-zA-Z0-9\\.\\^\\/\\+\\-\\*\\(\\)]+\\)");
         functionNamePattern = Pattern.compile("^[a-zA-Z]+");
         functionVariablePattern = Pattern.compile("\\([a-zA-Z0-9\\.\\^\\/\\+\\-\\*]+");
 
@@ -142,10 +142,18 @@ public class FunctionSolver {
         boolean numeric = true;
         String val = elt;
 
-        numeric = var.matches("([0-9\\.\\^\\/\\+\\-\\*])+");
+        // get the expression between the first parenthesis
+        val = findExpressionBetweenParenthesis(val, name);
+
+        Matcher m = Pattern.compile("([A-Za-z])+").matcher(val);
+        while(m.find()) {
+            numeric = false;
+        }
 
         if(numeric) {
-            val = new RawExpressionSolver().solve(var);
+            //purge backslash
+            val = val.replaceAll("\\\\", "");
+            val = new RawExpressionSolver().solve(val);
         }
         else{
             this.trigoFctCounter++;
@@ -185,7 +193,6 @@ public class FunctionSolver {
             case "e":
                 if(numeric) {
                     val = Double.toString(Math.exp(Double.parseDouble(val)));
-                    System.out.println("cc");
                 }
                 break;
             case "log": // base 10
@@ -202,7 +209,36 @@ public class FunctionSolver {
                 return false;
         }
 
-        this.result = this.result.replaceFirst(elt, val);
+        if(numeric) {
+            this.result = this.result.replaceFirst(elt, val);
+        }
+
         return true;
+    }
+
+    private String findExpressionBetweenParenthesis(String s, String fctName){
+
+        int startIdx = s.indexOf(fctName);
+        int firstParenthesisIdx = -1;
+        int lastParenthesisIdx = -1;
+        int checkBalance = -1;
+
+        for(int i = startIdx; i < s.length(); i++){
+            if(s.charAt(i) == '('){ // check if this is the first parenthesis and store the idx
+                if(firstParenthesisIdx == -1){
+                    firstParenthesisIdx = i;
+                }
+                checkBalance++;
+            }
+            if(s.charAt(i) == ')'){ // check if this is the last parenthesis and store the idx
+                if(checkBalance == 0){
+                    lastParenthesisIdx = i;
+                    return s.substring(firstParenthesisIdx+1, lastParenthesisIdx-1);
+                }
+                checkBalance--;
+            }
+        }
+
+        return s.substring(firstParenthesisIdx+1, lastParenthesisIdx-1);
     }
 }
